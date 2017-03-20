@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 CREATE TABLE categories (
  id INTEGER PRIMARY KEY,
  url TEXT NOT NULL,
@@ -8,6 +10,7 @@ CREATE TABLE items (
  id INTEGER PRIMARY KEY,
  category_id INTEGER,
  url TEXT NOT NULL,
+ img_url TEXT NOT NULL,
  title TEXT NOT NULL,
  cost DECIMAL(8,2) NOT NULL,
  discount INTEGER NOT NULL,
