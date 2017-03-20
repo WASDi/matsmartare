@@ -1,6 +1,7 @@
 CREATE TABLE categories (
  id INTEGER PRIMARY KEY,
- url TEXT NOT NULL
+ url TEXT NOT NULL,
+ title TEXT NOT NULL
 );
 
 CREATE TABLE items (
@@ -9,6 +10,7 @@ CREATE TABLE items (
  url TEXT NOT NULL,
  title TEXT NOT NULL,
  cost DECIMAL(8,2) NOT NULL,
+ discount INTEGER NOT NULL,
  first_seen DATETIME NOT NULL,
  last_seen DATETIME NOT NULL
 );
