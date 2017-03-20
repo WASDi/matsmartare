@@ -1,0 +1,16 @@
+CREATE TABLE categories (
+ id INTEGER PRIMARY KEY,
+ url TEXT NOT NULL
+);
+
+CREATE TABLE items (
+ id INTEGER PRIMARY KEY,
+ category_id INTEGER,
+ url TEXT NOT NULL,
+ title TEXT NOT NULL,
+ cost DECIMAL(8,2) NOT NULL,
+ first_seen DATETIME NOT NULL,
+ last_seen DATETIME NOT NULL
+);
+
+COMMIT;
