@@ -1,5 +1,6 @@
 import request from 'request';
 import cheerio from 'cheerio';
+import sqlite3 from 'sqlite3';
 
 const extURL = "http://www.matsmart.se/";
 request(extURL, function(error, response, html) {
@@ -10,11 +11,19 @@ request(extURL, function(error, response, html) {
   const $ = cheerio.load(html);
   const menuItems = $("#category-menu > li > a");
 
-  menuItems.each(function(i, element) {
+  if (!menuItems || menuItems.length == 0) {
+    console.log("menuItems empty?");
+    return;
+  }
+
+  let db = new sqlite3.Database("matsmartare.db");
+  db.run("BEGIN TRANSACTION");
+  db.run("DELETE FROM categories");
+  menuItems.each(function(id, element) {
     let categoryUrl = element.attribs.href;
     let categoryName = element.children[0].data;
-    console.log(categoryUrl);
-    console.log(categoryName);
-    console.log();
+    // console.log(categoryUrl + " ... " + categoryName);
+    db.run("INSERT INTO categories (id, url, title) VALUES (?,?,?)", id, categoryUrl, categoryName);
   });
+  db.run("COMMIT");
 });
