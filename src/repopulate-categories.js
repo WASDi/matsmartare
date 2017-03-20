@@ -23,7 +23,8 @@ request(extURL, function(error, response, html) {
     let categoryUrl = element.attribs.href;
     let categoryName = element.children[0].data;
     // console.log(categoryUrl + " ... " + categoryName);
-    db.run("INSERT INTO categories (id, url, title) VALUES (?,?,?)", id, categoryUrl, categoryName);
+    db.run("INSERT INTO categories (id, url, name) VALUES (?,?,?)", id, categoryUrl, categoryName);
   });
   db.run("COMMIT");
+  db.close();
 });

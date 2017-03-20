@@ -3,7 +3,7 @@ BEGIN TRANSACTION;
 CREATE TABLE categories (
  id INTEGER PRIMARY KEY,
  url TEXT NOT NULL,
- title TEXT NOT NULL
+ name TEXT NOT NULL
 );
 
 CREATE TABLE items (
@@ -11,8 +11,8 @@ CREATE TABLE items (
  category_id INTEGER,
  url TEXT NOT NULL,
  img_url TEXT NOT NULL,
- title TEXT NOT NULL,
- cost DECIMAL(8,2) NOT NULL,
+ name TEXT NOT NULL,
+ price DECIMAL(8,2) NOT NULL,
  discount INTEGER NOT NULL,
  first_seen DATETIME NOT NULL,
  last_seen DATETIME NOT NULL
