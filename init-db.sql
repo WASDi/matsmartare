@@ -8,7 +8,7 @@ CREATE TABLE categories (
 
 CREATE TABLE items (
  id INTEGER PRIMARY KEY,
- category_id INTEGER,
+ categories TEXT NOT NULL,
  url TEXT NOT NULL,
  img_url TEXT NOT NULL,
  name TEXT NOT NULL,
