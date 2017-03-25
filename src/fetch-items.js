@@ -35,16 +35,16 @@ function parseItem($, element, categoryId) {
   const price = $(element).find("div.prd-price-num").first().text().match(/\d+/)[0]; //FIXME doesn't understand that it's a sum price
   const discount = $(element).find("span.prd-discount-oldprice > span").first().text().replace(/^[^\(]+..|..[^\)]+$/g, '');
 
-  return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, TIMESTAMP_NOW, TIMESTAMP_NOW);
+  return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, 0, 0);
 }
 
 function resolveCategories(rows) {
   let categories = [];
   rows.forEach(function(row) {
     const categoryId = row.id;
-    if (!(row.id == 4 || row.id == 0)) {
-      return true; // Be nice when developing, only process two categories
-    }
+    // if (!(row.id == 4 || row.id == 1)) {
+    //   return true; // Be nice when developing, only process two categories
+    // }
     categories.push(newCategory(row.id, row.url, row.title));
   });
   return categories;
@@ -141,23 +141,33 @@ function fetchItemsFromMatsmart(db) {
 function mergeProcessItems(db, dbItems, matsmartItems) {
   return new Promise((resolve, reject) => {
     db.serialize(function() {
+      let result = {
+        newItems: 0,
+        updatedItems: 0
+      };
       db.run("BEGIN TRANSACTION");
-      let stmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      let insertNewStmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      let updateStmt = db.prepare("UPDATE items SET categories = ?, price = ?, discount = ?, last_seen = ? WHERE id = ?");
 
       matsmartItems.forEach(function(item) {
-        //stmt.run(item.categories.join(","), item.url, item.img_url, item.name, item.price, item.discount, item.first_seen, item.last_seen);
+        let dbItem = dbItems.get(item.url);
+        if (dbItem == undefined) {
+          insertNewStmt.run(item.categories.join(","), item.url, item.img_url, item.name, item.price, item.discount, TIMESTAMP_NOW, TIMESTAMP_NOW);
+          result.newItems++;
+        } else {
+          updateStmt.run(item.categories.join(","), item.price, item.discount, TIMESTAMP_NOW, dbItem.id);
+          result.updatedItems++;
+        }
       });
 
-      stmt.finalize();
+      insertNewStmt.finalize();
+      updateStmt.finalize();
       db.run("COMMIT");
 
-      resolve("TODO diff dbItems with matsmartItems and update DB as needed.");
+      resolve(result);
     });
   });
 }
-
-// stub item
-// INSERT INTO items (category_id, url, img_url, name, price, discount, first_seen, last_seen) VALUES (1, 'my_url', 'my_img_url', 'my_name', 49.50, 10, datetime(CURRENT_TIMESTAMP,'localtime'), datetime(CURRENT_TIMESTAMP,'localtime'))
 
 async function execute() {
   let db = new sqlite3.Database("matsmartare.db");
@@ -169,7 +179,7 @@ async function execute() {
   console.log("Items from web: " + matsmartItems.length);
 
   const result = await mergeProcessItems(db, dbItems, matsmartItems);
-  console.log("Result: " + result);
+  console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
 
   db.close();
 }
