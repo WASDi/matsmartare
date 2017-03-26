@@ -32,8 +32,14 @@ function parseItem($, element, categoryId) {
   const itemURL = element.attribs.href;
   const itemImageURL = "http:" + $(element).find("img.zoom").first()[0].attribs.src.replace(/\?itok=.*/g, '');
   const name = $(element).find("span.prd-name").first().text().replace(/^\s+|\s+$/g, '');
-  const price = $(element).find("div.prd-price-num").first().text().match(/\d+/)[0]; //FIXME doesn't understand that it's a sum price
   const discount = $(element).find("span.prd-discount-oldprice > span").first().text().replace(/^[^\(]+..|..[^\)]+$/g, '');
+
+  let price = $(element).find("div.prd-price-num").first().text().match(/\d+/)[0];
+  const itemsForPriceElem = $(element).find("span.prd-mp-text").first();
+  if (itemsForPriceElem.length != 0) {
+    const itemsForPrice = itemsForPriceElem.text().match(/\d+/)[0];
+    price = price / itemsForPrice;
+  }
 
   return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, 0, 0);
 }
@@ -42,9 +48,9 @@ function resolveCategories(rows) {
   let categories = [];
   rows.forEach(function(row) {
     const categoryId = row.id;
-    // if (!(row.id == 4 || row.id == 1)) {
-    //   return true; // Be nice when developing, only process two categories
-    // }
+    if (!(row.id == 4 || row.id == 555555)) {
+      //return true; // Be nice when developing, do few http requests
+    }
     categories.push(newCategory(row.id, row.url, row.title));
   });
   return categories;
