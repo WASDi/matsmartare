@@ -1,4 +1,7 @@
-import fetchItemsFromDb from './fetch-items-from-db.js';
+import {
+  fetchItemsFromDb,
+  resolveCategories
+} from './fetch-items-from-db.js';
 import sqlite3 from 'sqlite3';
 import express from 'express';
 
@@ -10,6 +13,15 @@ server.get("/db.json", (req, res) => {
     res.end(JSON.stringify(values));
     db.close();
   })
+});
+
+server.get("/categories.json", (req, res) => {
+  const db = new sqlite3.Database("matsmartare.db");
+  db.all("SELECT id, url, title FROM categories", function(err, rows) {
+    const categories = resolveCategories(rows);
+    res.end(JSON.stringify(categories));
+    db.close();
+  });
 });
 
 server.get("/", (req, res) => {
