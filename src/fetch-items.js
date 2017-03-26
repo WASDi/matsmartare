@@ -2,31 +2,14 @@ import request from 'request';
 import cheerio from 'cheerio';
 import sqlite3 from 'sqlite3';
 import HashMap from 'hashmap';
+import fetchItemsFromDb from './fetch-items-from-db.js';
+import {
+  newItem,
+  newCategory
+} from './models.js';
 
 const baseURL = "http://www.matsmart.se";
 const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
-
-function newItem(id, categories, url, img_url, name, price, discount, first_seen, last_seen) {
-  return {
-    id,
-    categories,
-    url,
-    img_url,
-    name,
-    price,
-    discount,
-    first_seen,
-    last_seen
-  };
-}
-
-function newCategory(id, url, title) {
-  return {
-    id,
-    url,
-    title
-  };
-}
 
 function parseItem($, element, categoryId) {
   const itemURL = element.attribs.href;
@@ -79,30 +62,6 @@ function promisesForFetchingItems(categories) {
     tasks.push(promise);
   });
   return tasks;
-}
-
-function translateToMap(dbItems) {
-  let map = new HashMap();
-  dbItems.forEach(function(item) {
-    map.set(item.url, item);
-  });
-  return map;
-}
-
-function fetchItemsFromDb(db) {
-  return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM items", function(err, rows) {
-      if (err) {
-        reject(err);
-      }
-      let items = [];
-      rows.forEach(function(row) {
-        let item = newItem(row.id, row.categories.split(","), row.url, row.img_url, row.name, row.price, row.discount, row.first_seen, row.last_seen);
-        items.push(item);
-      });
-      resolve(translateToMap(items));
-    });
-  });
 }
 
 function flatMapCombineCategories(categoryItems) {
@@ -178,7 +137,7 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
 async function execute() {
   let db = new sqlite3.Database("matsmartare.db");
 
-  const dbItems = await fetchItemsFromDb(db);
+  const dbItems = await fetchItemsFromDb(db, true);
   console.log("Items in db: " + dbItems.count());
 
   const matsmartItems = await fetchItemsFromMatsmart(db);
