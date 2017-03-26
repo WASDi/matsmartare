@@ -17,7 +17,7 @@ export default function fetchItemsFromDb(db, asMap) {
       }
       let items = [];
       rows.forEach(function(row) {
-        let item = newItem(row.id, row.categories.split(","), row.url, row.img_url, row.name, row.price, row.discount, row.first_seen, row.last_seen);
+        let item = newItem(row.id, row.categories.split(",").map(Number), row.url, row.img_url, row.name, row.price, row.discount, row.first_seen, row.last_seen);
         items.push(item);
       });
       if (asMap) {
