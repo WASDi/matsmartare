@@ -10,16 +10,16 @@ const server = express();
 server.get("/db.json", (req, res) => {
   const db = new sqlite3.Database("matsmartare.db");
   fetchItemsFromDb(db, false).then(values => {
-    res.end(JSON.stringify(values));
+    res.json(values);
     db.close();
-  })
+  });
 });
 
 server.get("/categories.json", (req, res) => {
   const db = new sqlite3.Database("matsmartare.db");
   db.all("SELECT id, url, title FROM categories", function(err, rows) {
     const categories = resolveCategories(rows);
-    res.end(JSON.stringify(categories));
+    res.json(categories);
     db.close();
   });
 });
