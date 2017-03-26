@@ -25,7 +25,7 @@ server.get("/categories.json", (req, res) => {
 });
 
 server.get("/", (req, res) => {
-  res.send("TODO index.html")
+  res.sendFile(__dirname + "/index.html");
 });
 
 server.listen(4000);
