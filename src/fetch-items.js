@@ -2,7 +2,10 @@ import request from 'request';
 import cheerio from 'cheerio';
 import sqlite3 from 'sqlite3';
 import HashMap from 'hashmap';
-import fetchItemsFromDb from './fetch-items-from-db.js';
+import {
+  fetchItemsFromDb,
+  resolveCategories
+} from './fetch-items-from-db.js';
 import {
   newItem,
   newCategory
@@ -25,18 +28,6 @@ function parseItem($, element, categoryId) {
   }
 
   return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, 0, 0);
-}
-
-function resolveCategories(rows) {
-  let categories = [];
-  rows.forEach(function(row) {
-    const categoryId = row.id;
-    if (!(row.id == 4 || row.id == 555555)) {
-      //return true; // Be nice when developing, do few http requests
-    }
-    categories.push(newCategory(row.id, row.url, row.title));
-  });
-  return categories;
 }
 
 function promisesForFetchingItems(categories) {

@@ -1,5 +1,8 @@
 import HashMap from 'hashmap';
-import { newItem } from './models.js';
+import {
+  newItem,
+  newCategory
+} from './models.js';
 
 function translateToMap(dbItems) {
   let map = new HashMap();
@@ -9,7 +12,7 @@ function translateToMap(dbItems) {
   return map;
 }
 
-export default function fetchItemsFromDb(db, asMap) {
+function fetchItemsFromDb(db, asMap) {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM items", function(err, rows) {
       if (err) {
@@ -27,3 +30,20 @@ export default function fetchItemsFromDb(db, asMap) {
     });
   });
 };
+
+function resolveCategories(rows) {
+  let categories = [];
+  rows.forEach(function(row) {
+    const categoryId = row.id;
+    if (!(row.id == 4 || row.id == 555555)) {
+      //return true; // Be nice when developing, do few http requests
+    }
+    categories.push(newCategory(row.id, row.url, row.title));
+  });
+  return categories;
+}
+
+module.exports = {
+  fetchItemsFromDb,
+  resolveCategories
+}
