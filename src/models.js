@@ -1,4 +1,4 @@
-function newItem(id, categories, url, img_url, name, price, discount, first_seen, last_seen) {
+function newItem(id, categories, url, img_url, name, price, discount, best_before, first_seen, last_seen) {
   return {
     id,
     categories,
@@ -7,6 +7,7 @@ function newItem(id, categories, url, img_url, name, price, discount, first_seen
     name,
     price,
     discount,
+    best_before,
     first_seen,
     last_seen
   };

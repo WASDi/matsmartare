@@ -14,6 +14,7 @@ CREATE TABLE items (
  name TEXT NOT NULL,
  price DECIMAL(8,2) NOT NULL,
  discount INTEGER NOT NULL,
+ best_before TEXT,
  first_seen DATETIME NOT NULL,
  last_seen DATETIME NOT NULL
 );

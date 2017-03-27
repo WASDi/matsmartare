@@ -23,7 +23,6 @@ function parseItem($, element, categoryId) {
   const bestBeforeMatch = imgElement.attribs.title.match(/\d\d\d\d-\d\d-\d\d/);
   if (bestBeforeMatch != undefined) {
     bestBefore = bestBeforeMatch[0];
-    console.log(itemURL + ": " +bestBefore);
   }
 
   const name = $(element).find("span.prd-name").first().text().replace(/^\s+|\s+$/g, '');
@@ -36,7 +35,7 @@ function parseItem($, element, categoryId) {
     price = price / itemsForPrice;
   }
 
-  return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, 0, 0);
+  return newItem(-1, [categoryId], itemURL, itemImageURL, name, price, discount, bestBefore, 0, 0);
 }
 
 function promisesForFetchingItems(categories) {
@@ -111,16 +110,16 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
         updatedItems: 0
       };
       db.run("BEGIN TRANSACTION");
-      let insertNewStmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-      let updateStmt = db.prepare("UPDATE items SET categories = ?, price = ?, discount = ?, last_seen = ? WHERE id = ?");
+      let insertNewStmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, best_before, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      let updateStmt = db.prepare("UPDATE items SET categories = ?, price = ?, discount = ?, best_before = ?, last_seen = ? WHERE id = ?");
 
       matsmartItems.forEach(function(item) {
         let dbItem = dbItems.get(item.url);
         if (dbItem == undefined) {
-          insertNewStmt.run(item.categories.join(","), item.url, item.img_url, item.name, item.price, item.discount, TIMESTAMP_NOW, TIMESTAMP_NOW);
+          insertNewStmt.run(item.categories.join(","), item.url, item.img_url, item.name, item.price, item.discount, item.best_before, TIMESTAMP_NOW, TIMESTAMP_NOW);
           result.newItems++;
         } else {
-          updateStmt.run(item.categories.join(","), item.price, item.discount, TIMESTAMP_NOW, dbItem.id);
+          updateStmt.run(item.categories.join(","), item.price, item.discount, item.best_before, TIMESTAMP_NOW, dbItem.id);
           result.updatedItems++;
         }
       });
@@ -143,8 +142,8 @@ async function execute() {
   const matsmartItems = await fetchItemsFromMatsmart(db);
   console.log("Items from web: " + matsmartItems.length);
 
-  // const result = await mergeProcessItems(db, dbItems, matsmartItems);
-  // console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
+  const result = await mergeProcessItems(db, dbItems, matsmartItems);
+  console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
 
   db.close();
 }
