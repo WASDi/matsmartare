@@ -16,7 +16,16 @@ const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
 
 function parseItem($, element, categoryId) {
   const itemURL = element.attribs.href;
-  const itemImageURL = "http:" + $(element).find("img.zoom").first()[0].attribs.src.replace(/\?itok=.*/g, '');
+
+  const imgElement = $(element).find("img.zoom").first()[0];
+  const itemImageURL = "http:" + imgElement.attribs.src.replace(/\?itok=.*/g, '');
+  let bestBefore = undefined;
+  const bestBeforeMatch = imgElement.attribs.title.match(/\d\d\d\d-\d\d-\d\d/);
+  if (bestBeforeMatch != undefined) {
+    bestBefore = bestBeforeMatch[0];
+    console.log(itemURL + ": " +bestBefore);
+  }
+
   const name = $(element).find("span.prd-name").first().text().replace(/^\s+|\s+$/g, '');
   const discount = $(element).find("span.prd-discount-oldprice > span").first().text().replace(/^[^\(]+..|..[^\)]+$/g, '');
 
@@ -134,8 +143,8 @@ async function execute() {
   const matsmartItems = await fetchItemsFromMatsmart(db);
   console.log("Items from web: " + matsmartItems.length);
 
-  const result = await mergeProcessItems(db, dbItems, matsmartItems);
-  console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
+  // const result = await mergeProcessItems(db, dbItems, matsmartItems);
+  // console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
 
   db.close();
 }
