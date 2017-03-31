@@ -8,7 +8,7 @@ function formatPrice(price) {
 }
 
 function fetchItems(callback) {
-  fetch("db_dump.json")
+  fetch("db.json")
     .then(resp => resp.json())
     .then(data => {
       let transformedData = []

@@ -7,6 +7,8 @@ import express from 'express';
 
 const server = express();
 
+const PORT = 4000;
+
 server.get("/db.json", (req, res) => {
   const db = new sqlite3.Database("matsmartare.db");
   fetchItemsFromDb(db, false).then(values => {
@@ -24,10 +26,12 @@ server.get("/categories.json", (req, res) => {
   });
 });
 
+server.use('/static', express.static(__dirname + "/client/static"));
+
 server.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/client/index.html");
 });
 
-server.listen(4000);
+server.listen(PORT);
 
-console.log("Server started");
+console.log("Server running on http://localhost:" + PORT);
