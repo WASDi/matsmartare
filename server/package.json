@@ -2,11 +2,11 @@
   "name": "matsmartare",
   "version": "0.0.0",
   "scripts": {
-    "build": "babel src -d dist --presets es2015,stage-2",
-    "repopulate-categories": "node dist/repopulate-categories.js",
-    "fetch-items": "node dist/fetch-items.js",
+    "build": "babel src -d build --presets es2015,stage-2",
+    "repopulate-categories": "node build/repopulate-categories.js",
+    "fetch-items": "node build/fetch-items.js",
     "fetch-items-dev": "babel-node src/fetch-items.js",
-    "server": "node dist/server.js",
+    "server": "node build/server.js",
     "server-dev": "babel-node src/server.js"
   },
   "dependencies": {
