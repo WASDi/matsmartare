@@ -9,8 +9,7 @@ npm run --prefix server build
 echo; echo "##### BUILD CLIENT"
 npm run --prefix client build
 
-echo "##### DONE"
 mv client/build/ server/build/client
 
-echo "Start with:"
+echo "##### DONE - Start with..."
 echo "node server/build/server.js"
