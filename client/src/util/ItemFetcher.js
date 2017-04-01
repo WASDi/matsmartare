@@ -11,10 +11,10 @@ function fetchItems(callback) {
   fetch("everything.json")
     .then(resp => resp.json())
     .then(data => {
-      let transformedData = []
+      let transformedItems = []
       data.items.forEach(element => {
         const firstSeenDate = new Date(element.first_seen * 1000);
-        transformedData.push({
+        transformedItems.push({
           id: element.id,
           categories: element.categories,
           url: "http://www.matsmart.se" + element.url,
@@ -27,7 +27,10 @@ function fetchItems(callback) {
           first_seen: dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM")
         });
       });
-      callback(transformedData);
+      callback({
+        items: transformedItems,
+        categories: data.categories
+      });
     });
 }
 
