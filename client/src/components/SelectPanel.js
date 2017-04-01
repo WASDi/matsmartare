@@ -8,7 +8,7 @@ const filterOptions = [
     { value: 'xxx', label: 'TODO' }
 ];
 
-function sortKeyObject(sortKey, reverse) {
+function sortKeyObject(key, reverse) {
   return {
     key,
     reverse
