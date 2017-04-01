@@ -19,4 +19,10 @@ CREATE TABLE items (
  last_seen DATETIME NOT NULL
 );
 
+CREATE TABLE update_logs (
+ when_timestamp INTEGER PRIMARY KEY,
+ num_web_items INTEGER NOT NULL,
+ num_new_items INTEGER NOT NULL
+);
+
 COMMIT;
