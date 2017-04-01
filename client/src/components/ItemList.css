@@ -31,12 +31,28 @@ a {
   margin-right: 10px;
 }
 
+.itemInfoWrapper {
+  width: 100%;
+}
+
 .itemName {
   font-weight: bold;
   margin-bottom: 2px;
-  padding-right: 20px;
+  margin-right: 20px;
 }
 
 .itemInfo {
   color: #37474f;
+  font-size: small;
+  margin-top: 5px;
+}
+
+.itemDiscount {
+  font-weight: bold;
+  float: left;
+}
+
+.itemBestBefore {
+  float: right;
+  margin-right: 25px;
 }

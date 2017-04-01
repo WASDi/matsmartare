@@ -62,12 +62,13 @@ export default class MyVirtualList extends PureComponent {
             <b>{element.priceFormatted}</b>
           </div>
 
-          <div>
+          <div className="itemInfoWrapper">
             <div className="itemName">
               <a href={element.url} target="_blank">{element.name}</a>
             </div>
             <div className="itemInfo">
-              <small><b>-{element.discount}%</b>{element.best_before ? " - Bäst före " + element.best_before : ""}</small>
+              <div className="itemDiscount">-{element.discount}%</div>
+              {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div>: ""}
             </div>
           </div>
 
