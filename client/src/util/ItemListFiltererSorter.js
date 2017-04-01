@@ -1,16 +1,19 @@
 function sortByKey(array, sortKeyObject) {
   const {
     key,
-    reverse
+    descending
   } = sortKeyObject;
   return array.sort(function(a, b) {
     const x = a[key];
     const y = b[key];
-    if (reverse) {
-      return ((x > y) ? -1 : ((x < y) ? 1 : 0));
-    } else {
-      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    if (y == null) {
+      return -1;
     }
+    const retVal = ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    if (descending) {
+      return -retVal;
+    }
+    return retVal;
   });
 }
 

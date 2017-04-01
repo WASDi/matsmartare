@@ -23,7 +23,7 @@ function fetchItems(callback) {
           price: element.price,
           priceFormatted: formatPrice(element.price),
           discount: element.discount,
-          best_before: element.best_before ? element.best_before : "",
+          best_before: element.best_before ? element.best_before : null,
           first_seen : dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM")
         });
       });
