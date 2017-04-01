@@ -8,11 +8,11 @@ function formatPrice(price) {
 }
 
 function fetchItems(callback) {
-  fetch("db.json")
+  fetch("everything.json")
     .then(resp => resp.json())
     .then(data => {
       let transformedData = []
-      data.forEach(element => {
+      data.items.forEach(element => {
         const firstSeenDate = new Date(element.first_seen * 1000);
         transformedData.push({
           id: element.id,
@@ -24,7 +24,7 @@ function fetchItems(callback) {
           priceFormatted: formatPrice(element.price),
           discount: element.discount,
           best_before: element.best_before ? element.best_before : null,
-          first_seen : dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM")
+          first_seen: dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM")
         });
       });
       callback(transformedData);
