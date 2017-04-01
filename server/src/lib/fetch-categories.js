@@ -24,7 +24,7 @@ export default function fetchCategories(callback) {
     menuItems.each(function(id, element) {
       let categoryUrl = element.attribs.href;
       let categoryName = element.children[0].data;
-      categories.push(newCategory(id, categoryUrl, categoryName));
+      categories.push(newCategory(id+1, categoryUrl, categoryName));
     });
     callback(categories);
   });
