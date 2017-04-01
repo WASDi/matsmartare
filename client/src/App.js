@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import ItemList from './components/ItemList.js';
+import SelectPanel from './components/SelectPanel.js';
 import fetchItems from './util/ItemFetcher.js';
 import './App.css';
 
@@ -21,8 +21,8 @@ class App extends Component {
       { items ?
         <div>
           <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
             <h2>Matsmartare</h2>
+            <SelectPanel />
           </div>
 
           <div className="App-body">
