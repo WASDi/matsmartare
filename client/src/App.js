@@ -14,6 +14,14 @@ class App extends Component {
     })
   }
 
+  onFilterChange(newValue) {
+    console.log("filter... " + newValue);
+  }
+
+  onSortChange(newValue) {
+    console.log("sort... " + newValue);
+  }
+
   render() {
     const { items } = this.state;
     return (
@@ -22,7 +30,7 @@ class App extends Component {
         <div>
           <div className="App-header">
             <h2>Matsmartare</h2>
-            <SelectPanel />
+            <SelectPanel onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
           </div>
 
           <div className="App-body">

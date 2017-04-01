@@ -13,6 +13,7 @@ export default class Dropdown extends PureComponent {
 		this.setState({
 			selectValue: newValue
 		});
+    this.props.onChange(newValue);
 	}
 
   render () {
