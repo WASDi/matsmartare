@@ -8,6 +8,11 @@ a {
   background-repeat: no-repeat;
 }
 
+.itemImageWrapper {
+  padding-top: 5px;
+  display: inline-table;
+}
+
 .itemRow {
   height: 100%;
   display: flex;
