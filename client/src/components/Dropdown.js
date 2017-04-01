@@ -21,7 +21,6 @@ export default class Dropdown extends PureComponent {
     return (
       <div className="dropdown" style={{float: align}}>
         <Select
-          name="form-field-name"
           value={this.state.selectValue}
           onChange={this.updateValue}
           options={options}

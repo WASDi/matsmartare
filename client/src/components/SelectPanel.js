@@ -8,22 +8,21 @@ const filterOptions = [
     { value: 'xxx', label: 'TODO' }
 ];
 
-
-function sortKey(key, reverse) {
+function sortKeyObject(sortKey, reverse) {
   return {
     key,
     reverse
   }
 }
 const sortOptions = [
-    { value: sortKey('price', true), label: 'Billigast' },
-    { value: sortKey('discount', false), label: 'Mest rabatt' },
+    { value: sortKeyObject('price', true), label: 'Billigast' },
+    { value: sortKeyObject('discount', false), label: 'Mest rabatt' },
 
-    { value: sortKey('first_seen', true), label: 'Senast inkomna' },
-    { value: sortKey('best_before', false), label: 'Bäst före' },
+    { value: sortKeyObject('first_seen', true), label: 'Senast inkomna' },
+    { value: sortKeyObject('best_before', false), label: 'Bäst före' },
 
-    { value: sortKey('price', false), label: 'Dyrast' },
-    { value: sortKey('discount', true), label: 'Minst rabatt' }
+    { value: sortKeyObject('price', false), label: 'Dyrast' },
+    { value: sortKeyObject('discount', true), label: 'Minst rabatt' }
 ];
 
 export default class SelectPanel extends PureComponent {
