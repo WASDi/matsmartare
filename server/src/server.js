@@ -1,28 +1,35 @@
 import {
-  fetchItemsFromDb,
-  resolveCategories
+  fetchItemsFromDb
 } from './lib/fetch-items-from-db.js';
 import sqlite3 from 'sqlite3';
 import express from 'express';
 
 const server = express();
-
 const PORT = 4000;
 
-server.get("/db.json", (req, res) => {
-  const db = new sqlite3.Database("matsmartare.db");
-  fetchItemsFromDb(db, false).then(values => {
-    res.json(values);
-    db.close();
+function fetchCategoriesFromDb(db, callback) {
+  db.all("SELECT id, title FROM categories", function(err, rows) {
+    const categories = [];
+    rows.forEach(row => {
+      categories.push({
+        id: row.id,
+        name: row.title
+      });
+    });
+    callback(categories);
   });
-});
+}
 
-server.get("/categories.json", (req, res) => {
+server.get("/everything.json", (req, res) => {
   const db = new sqlite3.Database("matsmartare.db");
-  db.all("SELECT id, url, title FROM categories", function(err, rows) {
-    const categories = resolveCategories(rows);
-    res.json(categories);
-    db.close();
+  fetchItemsFromDb(db, false).then(items => {
+    fetchCategoriesFromDb(db, categories => {
+      res.json({
+        categories,
+        items
+      });
+      db.close();
+    });
   });
 });
 
