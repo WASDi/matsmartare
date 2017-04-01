@@ -2,7 +2,7 @@ import request from 'request';
 import cheerio from 'cheerio';
 import sqlite3 from 'sqlite3';
 
-import { newCategory } from "../src/models.js";
+import { newCategory } from "../src/lib/models.js";
 
 const db = new sqlite3.Database("matsmartare.db");
 db.all("SELECT id, url, title FROM categories", function(err, rows) {

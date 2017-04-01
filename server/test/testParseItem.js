@@ -1,6 +1,6 @@
 import request from 'request';
 import cheerio from 'cheerio';
-import parseItem from '../src/parseItem.js';
+import parseItem from '../src/lib/parseItem.js';
 
 const URL = "http://www.matsmart.se/apotek";
 

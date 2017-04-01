@@ -2,14 +2,14 @@ import request from 'request';
 import cheerio from 'cheerio';
 import sqlite3 from 'sqlite3';
 import HashMap from 'hashmap';
-import parseItem from './parseItem.js';
+import parseItem from './lib/parseItem.js';
 import {
   fetchItemsFromDb,
   resolveCategories
-} from './fetch-items-from-db.js';
+} from './lib/fetch-items-from-db.js';
 import {
   newCategory
-} from './models.js';
+} from './lib/models.js';
 
 const baseURL = "http://www.matsmart.se";
 const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
