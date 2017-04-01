@@ -14,13 +14,13 @@ function sortByKey(array, sortKeyObject) {
   });
 }
 
-export default function(itemList, categoryKey, sortKeyObject) {
+export default function filterSort(itemList, categoryKey, sortKeyObject) {
 
-  if (categoryKey !== undefined) {
-    itemList = itemList.filter(x => x.categories.contains(categoryKey));
+  if (categoryKey) {
+    itemList = itemList.filter(x => x.categories.indexOf(categoryKey) !== -1);
   }
 
-  if (sortKeyObject !== undefined) {
+  if (sortKeyObject) {
     itemList = sortByKey(itemList, sortKeyObject);
   }
 

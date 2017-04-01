@@ -5,7 +5,8 @@ import 'react-select/dist/react-select.css';
 import './SelectPanel.css';
 
 const filterOptions = [
-    { value: 'xxx', label: 'TODO' }
+    { value: 4, label: 'TODO 4' },
+    { value: 18, label: 'TODO 18' },
 ];
 
 function sortKeyObject(key, reverse) {

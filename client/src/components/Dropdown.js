@@ -9,11 +9,11 @@ export default class Dropdown extends PureComponent {
     this.updateValue = this.updateValue.bind(this);
   }
 
-  updateValue (newValue) {
+  updateValue (newOption) {
 		this.setState({
-			selectValue: newValue
+			selectOption: newOption
 		});
-    this.props.onChange(newValue);
+    this.props.onChange(newOption ? newOption.value : null);
 	}
 
   render () {
@@ -21,7 +21,7 @@ export default class Dropdown extends PureComponent {
     return (
       <div className="dropdown" style={{float: align}}>
         <Select
-          value={this.state.selectValue}
+          value={this.state.selectOption}
           onChange={this.updateValue}
           options={options}
           searchable={false}
