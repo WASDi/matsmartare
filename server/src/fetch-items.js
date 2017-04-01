@@ -109,6 +109,19 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
   });
 }
 
+function insertUpdateLog(db, numWebItems, numNewItems) {
+  return new Promise((resolve, reject) => {
+    db.serialize(function() {
+      db.run("BEGIN TRANSACTION");
+      const insertStmt = db.prepare("INSERT INTO update_logs (when_timestamp, num_web_items, num_new_items) VALUES (?, ?, ?)")
+      insertStmt.run(TIMESTAMP_NOW, numWebItems, numNewItems);
+      insertStmt.finalize();
+      db.run("COMMIT");
+      resolve(null);
+    });
+  });
+}
+
 async function execute() {
   let db = new sqlite3.Database("matsmartare.db");
 
@@ -119,6 +132,7 @@ async function execute() {
   console.log("Items from web: " + matsmartItems.length);
 
   const result = await mergeProcessItems(db, dbItems, matsmartItems);
+  await insertUpdateLog(db, matsmartItems.length, result.newItems);
   console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
 
   db.close();
