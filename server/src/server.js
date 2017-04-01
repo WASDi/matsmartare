@@ -1,7 +1,7 @@
 import {
   fetchItemsFromDb,
   resolveCategories
-} from './fetch-items-from-db.js';
+} from './lib/fetch-items-from-db.js';
 import sqlite3 from 'sqlite3';
 import express from 'express';
 
