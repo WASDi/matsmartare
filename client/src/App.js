@@ -14,11 +14,12 @@ class App extends Component {
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onSortChange = this.onSortChange.bind(this);
 
-    fetchItems(items => {
+    fetchItems(data => {
       this.setState(
         {
-          rawItems: items,
-          items: items
+          rawItems: data.items,
+          items: data.items,
+          categories: data.categories
         }
       );
     });
@@ -41,14 +42,14 @@ class App extends Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { items, categories } = this.state;
     return (
       <div className="App">
       { items ?
         <div>
           <div className="App-header">
             <h2>Matsmartare</h2>
-            <SelectPanel onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
+            <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
           </div>
 
           <div className="App-body">

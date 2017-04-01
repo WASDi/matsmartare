@@ -4,10 +4,16 @@ import Dropdown from './Dropdown.js';
 import 'react-select/dist/react-select.css';
 import './SelectPanel.css';
 
-const filterOptions = [
-    { value: 4, label: 'TODO 4' },
-    { value: 18, label: 'TODO 18' },
-];
+function transformCategories(categories) {
+  const categoryOptions = [];
+  categories.forEach(category => {
+    categoryOptions.push({
+      value: category.id,
+      label: category.name
+    });
+  });
+  return categoryOptions;
+}
 
 function sortKeyObject(key, descending) {
   return {
@@ -15,6 +21,7 @@ function sortKeyObject(key, descending) {
     descending
   }
 }
+
 const sortOptions = [
     { value: sortKeyObject('price', false), label: 'Billigast' },
     { value: sortKeyObject('discount', true), label: 'Mest rabatt' },
@@ -28,14 +35,15 @@ const sortOptions = [
 
 export default class SelectPanel extends PureComponent {
 
-  // constructor (props) {
-  //   super(props);
-  // }
+  constructor (props) {
+    super(props);
+    this.categoryOptions = transformCategories(props.categories);
+  }
 
   render () {
     return (
       <div>
-        <Dropdown options={filterOptions} placeholder="Filtrera..." align="left" onChange={this.props.onFilterChange} />
+        <Dropdown options={this.categoryOptions} placeholder="Kategorier..." align="left" onChange={this.props.onFilterChange} />
         <Dropdown options={sortOptions} placeholder="Sortera..." align="right" onChange={this.props.onSortChange} />
       </div>
     )
