@@ -14,7 +14,7 @@ function translateToMap(dbItems) {
 
 function fetchItemsFromDb(db, asMap) {
   return new Promise((resolve, reject) => {
-    db.all("SELECT * FROM items", function(err, rows) {
+    db.all("SELECT * FROM items WHERE last_seen=(SELECT MAX(last_seen) FROM items)", function(err, rows) {
       if (err) {
         reject(err);
       }
