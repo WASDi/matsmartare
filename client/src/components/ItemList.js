@@ -4,6 +4,13 @@ import './ItemList.css';
 
 const ROW_HEIGHT = 80;
 
+const imageWrapperStyle = {
+  width: ROW_HEIGHT,
+  height: ROW_HEIGHT-20,
+  paddingTop: "5px",
+  display: "inline-table"
+};
+
 export default class MyVirtualList extends PureComponent {
 
   constructor (props) {
@@ -38,13 +45,9 @@ export default class MyVirtualList extends PureComponent {
   _rowRenderer ({ index, key, style }) {
       const element = this.state.items[index];
 
-      const imageWrapperStyle = {
-        width: ROW_HEIGHT,
-        height: ROW_HEIGHT
-      };
       const imageStyle = {
-        width: ROW_HEIGHT-1,
-        height: ROW_HEIGHT-1,
+        width: ROW_HEIGHT-10,
+        height: ROW_HEIGHT-15,
         backgroundImage : 'url(' + element.img_url + ')'
       };
 

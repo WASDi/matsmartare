@@ -22,15 +22,14 @@ a {
 
 .itemPrice {
   background-color: red;
-  display: inline-block;
-  height: 40px;
-  width: 40px;
-  line-height: 40px;
+  display: inline-table;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
   text-align: center;
-  border-radius: 40px;
+  border-radius: 50px;
   color: white;
-  font-size: 1.2em;
-  margin-right: 25px;
+  margin-right: 10px;
 }
 
 .itemName {
