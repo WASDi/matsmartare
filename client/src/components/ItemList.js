@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import {List, AutoSizer} from 'react-virtualized';
 import './ItemList.css';
 
+const ROW_HEIGHT = 80;
+
 export default class MyVirtualList extends PureComponent {
 
   constructor (props) {
@@ -22,7 +24,7 @@ export default class MyVirtualList extends PureComponent {
                 ref='List'
                 overscanRowCount={10}
                 rowCount={this.state.items.length}
-                rowHeight={80}
+                rowHeight={ROW_HEIGHT}
                 rowRenderer={this._rowRenderer}
                 width={width}
                 height={500}
@@ -35,8 +37,23 @@ export default class MyVirtualList extends PureComponent {
 
   _rowRenderer ({ index, key, style }) {
       const element = this.state.items[index];
+
+      const imageWrapperStyle = {
+        width: ROW_HEIGHT,
+        height: ROW_HEIGHT
+      };
+      const imageStyle = {
+        width: ROW_HEIGHT-1,
+        height: ROW_HEIGHT-1,
+        backgroundImage : 'url(' + element.img_url + ')'
+      };
+
       return (
         <div className="itemRow" key={key} style={style}>
+
+          <div style={imageWrapperStyle}>
+            <div className="itemImage" style={imageStyle}></div>
+          </div>
 
           <div className="itemPrice">
             <b>{element.priceFormatted}</b>
