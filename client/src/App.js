@@ -21,7 +21,7 @@ class App extends Component {
           items: items
         }
       );
-    })
+    });
   }
 
   onFilterChange(categoryFilter) {
@@ -52,7 +52,7 @@ class App extends Component {
           </div>
 
           <div className="App-body">
-            <ItemList items={items} / >
+            <ItemList items={items} />
           </div>
         </div>
         :
