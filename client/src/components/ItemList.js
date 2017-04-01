@@ -22,6 +22,13 @@ export default class ItemList extends PureComponent {
     this._rowRenderer = this._rowRenderer.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log("bbbb");
+    this.setState({
+      items: nextProps.items
+    });
+  }
+
   render () {
     return (
       <div>
