@@ -5,7 +5,9 @@ export default class Dropdown extends PureComponent {
 
   constructor (props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectOption: props.mandatory ? props.options[0] : null
+    };
     this.updateValue = this.updateValue.bind(this);
   }
 
@@ -17,7 +19,7 @@ export default class Dropdown extends PureComponent {
 	}
 
   render () {
-    const {placeholder, align, options} = this.props;
+    const {placeholder, align, options, mandatory} = this.props;
     return (
       <div className="dropdown" style={{float: align}}>
         <Select
@@ -26,6 +28,7 @@ export default class Dropdown extends PureComponent {
           options={options}
           searchable={false}
           placeholder={placeholder}
+          clearable={!mandatory}
         />
       </div>
     )
