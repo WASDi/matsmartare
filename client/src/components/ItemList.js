@@ -6,9 +6,7 @@ const ROW_HEIGHT = 80;
 
 const imageWrapperStyle = {
   width: ROW_HEIGHT,
-  height: ROW_HEIGHT-20,
-  paddingTop: "5px",
-  display: "inline-table"
+  height: ROW_HEIGHT-20
 };
 
 export default class ItemList extends PureComponent {
@@ -23,7 +21,6 @@ export default class ItemList extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("bbbb");
     this.setState({
       items: nextProps.items
     });
@@ -61,7 +58,7 @@ export default class ItemList extends PureComponent {
       return (
         <div className="itemRow" key={key} style={style}>
 
-          <div style={imageWrapperStyle}>
+          <div className="itemImageWrapper" style={imageWrapperStyle}>
             <div className="itemImage" style={imageStyle}></div>
           </div>
 
