@@ -8,7 +8,8 @@
     "fetch-items-dev": "babel-node src/fetch-items.js",
     "server": "node build/server.js",
     "server-dev": "babel-node src/server.js",
-    "test-parse-item": "babel-node test/testParseItem.js"
+    "test-parse-item": "babel-node test/testParseItem.js",
+    "categories-diff": "babel-node test/categoriesDiff.js"
   },
   "dependencies": {
     "request": "2.79.x",
