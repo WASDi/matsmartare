@@ -11,7 +11,7 @@ const imageWrapperStyle = {
   display: "inline-table"
 };
 
-export default class MyVirtualList extends PureComponent {
+export default class ItemList extends PureComponent {
 
   constructor (props) {
     super(props);
