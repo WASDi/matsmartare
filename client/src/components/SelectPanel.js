@@ -45,8 +45,8 @@ export default class SelectPanel extends PureComponent {
   render () {
     return (
       <div>
-        <Dropdown options={this.categoryOptions} placeholder="Kategorier..." align="left" onChange={this.props.onFilterChange} />
-        <Dropdown options={sortOptions} mandatory placeholder="Sortera..." align="right" onChange={this.props.onSortChange} />
+        <Dropdown onChange={this.props.onFilterChange} options={this.categoryOptions} align="left" placeholder="Kategorier..." />
+        <Dropdown onChange={this.props.onSortChange} options={sortOptions} mandatory align="right" />
       </div>
     )
   }
