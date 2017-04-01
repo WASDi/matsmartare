@@ -16,7 +16,7 @@ function fetchItems(callback) {
         const firstSeenDate = new Date(element.first_seen * 1000);
         transformedData.push({
           id: element.id,
-          categories: categories,
+          categories: element.categories,
           url: "http://www.matsmart.se" + element.url,
           img_url: element.img_url,
           name: element.name,
