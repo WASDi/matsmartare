@@ -21,13 +21,12 @@ a {
 }
 
 .itemPrice {
-  background-color: red;
+  background: url(http://cdn1.matsmart.se/sites/all/themes/retailshop/images/icons/star.svg) no-repeat;
   display: inline-table;
   height: 50px;
   width: 50px;
   line-height: 50px;
   text-align: center;
-  border-radius: 50px;
   color: white;
   margin-right: 10px;
 }
@@ -35,6 +34,7 @@ a {
 .itemName {
   font-weight: bold;
   margin-bottom: 2px;
+  padding-right: 20px;
 }
 
 .itemInfo {
