@@ -21,9 +21,14 @@ export default class ItemList extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    const needsForceUpdate = nextProps.items.length === this.state.items.length;
     this.setState({
       items: nextProps.items
     });
+
+    if(needsForceUpdate) {
+      this.listRef.forceUpdateGrid();
+    }
   }
 
   render () {
@@ -32,7 +37,7 @@ export default class ItemList extends PureComponent {
         <AutoSizer disableHeight>
             {({ width }) => (
               <List
-                ref='List'
+                ref={listRef => { this.listRef = listRef }}
                 overscanRowCount={10}
                 rowCount={this.state.items.length}
                 rowHeight={ROW_HEIGHT}
