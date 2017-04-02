@@ -2,7 +2,7 @@
   "name": "matsmartare",
   "version": "0.0.0",
   "scripts": {
-    "build": "babel src -d build --presets es2015,stage-2",
+    "build": "babel src -d build",
     "repopulate-categories": "node build/repopulate-categories.js",
     "fetch-items": "node build/fetch-items.js",
     "fetch-items-dev": "babel-node src/fetch-items.js",
@@ -12,6 +12,7 @@
     "categories-diff": "babel-node test/categoriesDiff.js"
   },
   "dependencies": {
+    "babel-runtime": "^6.23.0",
     "request": "2.79.x",
     "cheerio": "0.22.x",
     "url": "0.11.x",
@@ -21,8 +22,9 @@
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
-    "babel-preset-es2015": "6.18.0",
-    "babel-preset-stage-0": "6.16.0"
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-plugin-transform-runtime": "^6.23.0"
   },
   "private": false,
   "analyze": true
