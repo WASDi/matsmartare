@@ -43,7 +43,7 @@ export default class ItemList extends PureComponent {
                 rowHeight={ROW_HEIGHT}
                 rowRenderer={this._rowRenderer}
                 width={width}
-                height={500}
+                height={510}
               />
             )}
           </AutoSizer>
