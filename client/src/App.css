@@ -4,8 +4,17 @@
 
 .App-header {
   background-color: #222;
-  height: 100px;
-  padding-top: 20px;
-  padding-bottom: 20px;  
+  height: 90px;
+  padding-top: 10px;
+  padding-bottom: 20px;
   color: white;
+}
+
+.App-title {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.App-subtitle {
+  margin-bottom: 10px;
 }

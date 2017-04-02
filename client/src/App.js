@@ -48,7 +48,8 @@ class App extends Component {
       { items ?
         <div>
           <div className="App-header">
-            <h2>Matsmartare</h2>
+            <div className="App-title">Matsmartare</div>
+            <div className="App-subtitle">Ett smidigare gränssnitt till matsmart.se</div>
             <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
           </div>
 
