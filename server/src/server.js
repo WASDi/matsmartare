@@ -8,12 +8,12 @@ const server = express();
 const PORT = 4000;
 
 function fetchCategoriesFromDb(db, callback) {
-  db.all("SELECT id, title FROM categories", function(err, rows) {
+  db.all("SELECT id, name FROM categories", function(err, rows) {
     const categories = [];
     rows.forEach(row => {
       categories.push({
         id: row.id,
-        name: row.title
+        name: row.name
       });
     });
     callback(categories);
