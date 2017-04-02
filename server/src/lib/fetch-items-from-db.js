@@ -32,13 +32,9 @@ function fetchItemsFromDb(db, asMap) {
 };
 
 function resolveCategories(rows) {
-  let categories = [];
+  const categories = [];
   rows.forEach(function(row) {
-    const categoryId = row.id;
-    if (!(row.id == 4 || row.id == 555555)) {
-      //return true; // Be nice when developing, do few http requests
-    }
-    categories.push(newCategory(row.id, row.url, row.title));
+    categories.push(newCategory(row.id, row.url, row.name));
   });
   return categories;
 }
