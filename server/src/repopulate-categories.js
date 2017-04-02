@@ -7,7 +7,7 @@ fetchCategories(function(categories) {
   let db = new sqlite3.Database("matsmartare.db");
   db.run("BEGIN TRANSACTION");
   db.run("DELETE FROM categories");
-  categories.each(function(category) {
+  categories.forEach(function(category) {
     db.run("INSERT INTO categories (id, url, name) VALUES (?,?,?)", category.id, category.categoryUrl, category.categoryName);
   });
   db.run("COMMIT");
