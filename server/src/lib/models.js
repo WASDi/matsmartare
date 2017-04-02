@@ -13,11 +13,11 @@ function newItem(id, categories, url, img_url, name, price, discount, best_befor
   };
 }
 
-function newCategory(id, url, title) {
+function newCategory(id, url, name) {
   return {
     id,
     url,
-    title
+    name
   };
 }
 

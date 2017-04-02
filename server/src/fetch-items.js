@@ -7,9 +7,6 @@ import {
   fetchItemsFromDb,
   resolveCategories
 } from './lib/fetch-items-from-db.js';
-import {
-  newCategory
-} from './lib/models.js';
 
 const baseURL = "http://www.matsmart.se";
 const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
@@ -58,7 +55,7 @@ function flatMapCombineCategories(categoryItems) {
 
 function fetchItemsFromMatsmart(db) {
   return new Promise((resolve, reject) => {
-    db.all("SELECT id, url, title FROM categories", function(err, rows) {
+    db.all("SELECT id, url, name FROM categories", function(err, rows) {
       if (err) {
         reject(err);
       }

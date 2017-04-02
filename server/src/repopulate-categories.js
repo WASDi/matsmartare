@@ -8,7 +8,7 @@ fetchCategories(function(categories) {
   db.run("BEGIN TRANSACTION");
   db.run("DELETE FROM categories");
   categories.forEach(function(category) {
-    db.run("INSERT INTO categories (id, url, name) VALUES (?,?,?)", category.id, category.categoryUrl, category.categoryName);
+    db.run("INSERT INTO categories (id, url, name) VALUES (?,?,?)", category.id, category.url, category.name);
   });
   db.run("COMMIT");
   db.close();
