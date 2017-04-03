@@ -6,6 +6,7 @@ a {
 .itemImage {
   background-size: contain;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .itemImageWrapper {
