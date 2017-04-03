@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ItemList from './components/ItemList.js';
 import SelectPanel from './components/SelectPanel.js';
+import Headroom from 'react-headroom';
 import fetchItems from './util/ItemFetcher.js';
 import filterSort from './util/ItemListFiltererSorter';
 import './App.css';
@@ -47,11 +48,13 @@ class App extends Component {
       <div className="App">
       { items ?
         <div>
-          <div className="App-header">
-            <div className="App-title">Matsmartare</div>
-            <div className="App-subtitle">Ett smidigare gränssnitt till matsmart.se</div>
-            <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
-          </div>
+          <Headroom>
+            <div className="App-header">
+              <div className="App-title">Matsmartare</div>
+              <div className="App-subtitle">Ett smidigare gränssnitt till matsmart.se</div>
+              <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
+            </div>
+          </Headroom>
 
           <div className="App-body">
             <ItemList items={items} />
