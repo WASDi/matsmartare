@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {List, AutoSizer} from 'react-virtualized';
+import {List, AutoSizer, WindowScroller} from 'react-virtualized';
 import './ItemList.css';
 
 const ROW_HEIGHT = 80;
@@ -34,19 +34,25 @@ export default class ItemList extends PureComponent {
   render () {
     return (
       <div>
-        <AutoSizer disableHeight>
-            {({ width }) => (
-              <List
-                ref={listRef => { this.listRef = listRef }}
-                overscanRowCount={10}
-                rowCount={this.state.items.length}
-                rowHeight={ROW_HEIGHT}
-                rowRenderer={this._rowRenderer}
-                width={width}
-                height={510}
-              />
-            )}
-          </AutoSizer>
+        <WindowScroller>
+        {({ height, scrollTop }) => (
+          <AutoSizer disableHeight>
+              {({ width }) => (
+                <List
+                  autoHeight
+                  ref={listRef => { this.listRef = listRef }}
+                  overscanRowCount={5}
+                  rowCount={this.state.items.length}
+                  rowHeight={ROW_HEIGHT}
+                  rowRenderer={this._rowRenderer}
+                  width={width}
+                  height={height}
+                  scrollTop={scrollTop}
+                />
+              )}
+            </AutoSizer>
+          )}
+          </WindowScroller>
       </div>
     )
   }
