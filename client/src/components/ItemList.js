@@ -9,6 +9,10 @@ const imageWrapperStyle = {
   height: ROW_HEIGHT-20
 };
 
+function openLinkInNewWindow(url) {
+  window.open(url, "_blank");
+}
+
 export default class ItemList extends PureComponent {
 
   constructor (props) {
@@ -69,7 +73,7 @@ export default class ItemList extends PureComponent {
       return (
         <div className="itemRow" key={key} style={style}>
 
-          <div className="itemImageWrapper" style={imageWrapperStyle}>
+          <div className="itemImageWrapper" style={imageWrapperStyle} onClick={() => openLinkInNewWindow(element.url)}>
             <div className="itemImage" style={imageStyle}></div>
           </div>
 
