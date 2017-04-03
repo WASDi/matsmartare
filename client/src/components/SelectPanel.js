@@ -25,8 +25,8 @@ function sortKeyObject(key, descending) {
 const sortOptions = [
   { value: sortKeyObject('first_seen', true), label: 'Senast inkomna' },
 
-  { value: sortKeyObject('price', false), label: 'Billigast' },
-  { value: sortKeyObject('price', true), label: 'Dyrast' },
+  { value: sortKeyObject('price', false), label: 'Lägst pris' },
+  { value: sortKeyObject('price', true), label: 'Högst pris' },
 
   { value: sortKeyObject('discount', true), label: 'Mest rabatt' },
   { value: sortKeyObject('discount', false), label: 'Minst rabatt' },
