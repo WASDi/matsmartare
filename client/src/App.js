@@ -6,6 +6,8 @@ import fetchItems from './util/ItemFetcher.js';
 import filterSort from './util/ItemListFiltererSorter';
 import './App.css';
 
+const INITIAL_SORT = {key: 'first_seen', descending: true};
+
 class App extends Component {
 
   constructor() {
@@ -16,6 +18,7 @@ class App extends Component {
     this.onSortChange = this.onSortChange.bind(this);
 
     fetchItems(data => {
+      filterSort(data.items, null, INITIAL_SORT);
       this.setState(
         {
           rawItems: data.items,
