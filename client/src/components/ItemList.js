@@ -5,8 +5,8 @@ import './ItemList.css';
 const ROW_HEIGHT = 80;
 
 const imageWrapperStyle = {
-  width: ROW_HEIGHT,
-  height: ROW_HEIGHT-20
+  width: ROW_HEIGHT-10,
+  height: ROW_HEIGHT-10
 };
 
 function openLinkInNewWindow(url) {
@@ -87,6 +87,7 @@ export default class ItemList extends PureComponent {
             </div>
             <div className="itemInfo">
               <div className="itemDiscount">-{element.discount}%</div>
+              {element.nyhet ? <div className="itemNyhet">NY</div> : ""}
               {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div>: ""}
             </div>
           </div>
