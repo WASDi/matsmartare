@@ -10,7 +10,7 @@ a {
 }
 
 .itemImageWrapper {
-  padding-top: 5px;
+  margin-top: 5px;
   display: inline-table;
 }
 
@@ -44,7 +44,7 @@ a {
 .itemName {
   font-weight: bold;
   margin-bottom: 2px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .itemInfo {
@@ -56,6 +56,13 @@ a {
 .itemDiscount {
   font-weight: bold;
   float: left;
+}
+
+.itemNyhet {
+  float: left;
+  font-weight: bold;
+  color: orangered;
+  margin-left: 7px;
 }
 
 .itemBestBefore {

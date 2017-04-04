@@ -1,5 +1,8 @@
 import dateFormat from 'dateformat';
 
+const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
+const TWO_DAYS_AGO = TIMESTAMP_NOW - (3600 * 24 * 2);
+
 function formatPrice(price) {
   if (typeof(price) === 'number' && price % 1 !== 0) {
     return price.toFixed(2);
@@ -24,7 +27,8 @@ function fetchItems(callback) {
           priceFormatted: formatPrice(element.price),
           discount: element.discount,
           best_before: element.best_before ? element.best_before : null,
-          first_seen: dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM")
+          first_seen: dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM"),
+          nyhet: element.first_seen > TWO_DAYS_AGO
         });
       });
       callback({
