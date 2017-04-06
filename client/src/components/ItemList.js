@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {List, AutoSizer, WindowScroller} from 'react-virtualized';
 import './ItemList.css';
 
+const MAX_HOURS_OLD_FOR_NEW = 48;
 const ROW_HEIGHT = 80;
 
 const imageWrapperStyle = {
@@ -87,7 +88,7 @@ export default class ItemList extends PureComponent {
             </div>
             <div className="itemInfo">
               <div className="itemDiscount">-{element.discount}%</div>
-              {element.nyhet ? <div className="itemNyhet">NY</div> : ""}
+              {element.hoursOld <= MAX_HOURS_OLD_FOR_NEW ? <div className="itemNyhet">NY {element.hoursOld}h</div> : ""}
               {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div>: ""}
             </div>
           </div>
