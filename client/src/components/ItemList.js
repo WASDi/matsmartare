@@ -88,7 +88,7 @@ export default class ItemList extends PureComponent {
             </div>
             <div className="itemInfo">
               <div className="itemDiscount">-{element.discount}%</div>
-              {element.hoursOld <= MAX_HOURS_OLD_FOR_NEW ? <div className="itemNyhet">NY {element.hoursOld}h</div> : ""}
+              {element.hoursOld <= MAX_HOURS_OLD_FOR_NEW ? <div className="itemNyhet">{element.hoursOld}h</div> : ""}
               {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div>: ""}
             </div>
           </div>
