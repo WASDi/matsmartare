@@ -97,6 +97,8 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
         }
       });
 
+      db.run("UPDATE items SET name = 'ARCHIVE_' || name WHERE last_seen != (SELECT max(last_seen) FROM items) AND name NOT LIKE 'ARCHIVE_%'");
+
       insertNewStmt.finalize();
       updateStmt.finalize();
       db.run("COMMIT");
