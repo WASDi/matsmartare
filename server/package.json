@@ -6,6 +6,7 @@
     "repopulate-categories": "node build/repopulate-categories.js",
     "fetch-items": "node build/fetch-items.js",
     "fetch-items-dev": "babel-node src/fetch-items.js",
+    "generate-json-dev": "babel-node src/generate-everything-json.js",
     "server": "node build/server.js",
     "server-dev": "babel-node src/server.js",
     "test-parse-item": "babel-node test/testParseItem.js",
