@@ -84,7 +84,7 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
       };
       db.run("BEGIN TRANSACTION");
       let insertNewStmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, best_before, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-      let updateStmt = db.prepare("UPDATE items SET categories = ?, price = ?, discount = ?, best_before = ?, last_seen = ? WHERE id = ?");
+      let updateStmt = db.prepare("UPDATE items SET categories = ?, img_url = ?, price = ?, discount = ?, best_before = ?, last_seen = ? WHERE id = ?");
 
       matsmartItems.forEach(function(item) {
         let dbItem = dbItems.get(item.url);
@@ -92,7 +92,7 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
           insertNewStmt.run(item.categories.join(","), item.url, item.img_url, item.name, item.price, item.discount, item.best_before, TIMESTAMP_NOW, TIMESTAMP_NOW);
           result.newItems++;
         } else {
-          updateStmt.run(item.categories.join(","), item.price, item.discount, item.best_before, TIMESTAMP_NOW, dbItem.id);
+          updateStmt.run(item.categories.join(","), item.img_url, item.price, item.discount, item.best_before, TIMESTAMP_NOW, dbItem.id);
           result.updatedItems++;
         }
       });
