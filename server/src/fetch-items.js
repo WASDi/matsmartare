@@ -11,10 +11,10 @@ import {
 const baseURL = "http://www.matsmart.se";
 const TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
 
-function promisesForFetchingItems(categories) {
+function promiseFunctionsForFetchingItems(categories) {
   let tasks = [];
   categories.forEach(function(category) {
-    var promise = new Promise((resolve, reject) => {
+    var promiseFunc = () => new Promise((resolve, reject) => {
       const url = baseURL + category.url;
       request(url, function(error, response, html) {
         if (error) {
@@ -31,7 +31,7 @@ function promisesForFetchingItems(categories) {
         resolve(items);
       });
     });
-    tasks.push(promise);
+    tasks.push(promiseFunc);
   });
   return tasks;
 }
@@ -53,6 +53,15 @@ function flatMapCombineCategories(categoryItems) {
   return url2item.values();
 }
 
+async function runSerial(tasks) {
+  const results = [];
+  for(let i = 0; i < tasks.length; i++) {
+    const result = await tasks[i]();
+    results.push(result);
+  }
+  return results;
+}
+
 function fetchItemsFromMatsmart(db) {
   return new Promise((resolve, reject) => {
     db.all("SELECT id, url, name FROM categories", function(err, rows) {
@@ -60,9 +69,9 @@ function fetchItemsFromMatsmart(db) {
         reject(err);
       }
       let categories = resolveCategories(rows);
-      let tasks = promisesForFetchingItems(categories);
+      let tasks = promiseFunctionsForFetchingItems(categories);
 
-      Promise.all(tasks).then(values => {
+      runSerial(tasks).then(values => {
         try {
           resolve(flatMapCombineCategories(values));
         } catch (err) {
@@ -137,4 +146,11 @@ async function execute() {
   db.close();
 }
 
-execute();
+execute().then(
+  success => {},
+  fail => {console.log("FAIL: " + fail)}
+);
+
+// process.on('unhandledRejection', (reason) => {
+//     console.log(reason);
+// });
