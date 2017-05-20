@@ -106,7 +106,8 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
         }
       });
 
-      db.run("UPDATE items SET name = 'ARCHIVE_' || name WHERE last_seen != (SELECT max(last_seen) FROM items) AND name NOT LIKE 'ARCHIVE_%'");
+      // archive items not seen for 15 hours
+      db.run("UPDATE items SET name = 'ARCHIVE_' || name WHERE last_seen < (SELECT max(last_seen)-(15*3600) FROM items) AND name NOT LIKE 'ARCHIVE_%'");
 
       insertNewStmt.finalize();
       updateStmt.finalize();
