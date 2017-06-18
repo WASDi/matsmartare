@@ -84,16 +84,22 @@ function fetchItemsFromMatsmart(db) {
   });
 }
 
+function notEqual(a, b) {
+  return Math.abs(a-b) > 0.01;
+}
+
 function mergeProcessItems(db, dbItems, matsmartItems) {
   return new Promise((resolve, reject) => {
     db.serialize(function() {
       let result = {
         newItems: 0,
-        updatedItems: 0
+        updatedItems: 0,
+        priceChanges: 0
       };
       db.run("BEGIN TRANSACTION");
       let insertNewStmt = db.prepare("INSERT INTO items (categories, url, img_url, name, price, discount, best_before, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
       let updateStmt = db.prepare("UPDATE items SET categories = ?, img_url = ?, price = ?, discount = ?, best_before = ?, last_seen = ? WHERE id = ?");
+      let priceChangeStmt = db.prepare("INSERT INTO price_changes (item_id, price_before, price_after, created) VALUES (?, ?, ?, ?)");
 
       matsmartItems.forEach(function(item) {
         let dbItem = dbItems.get(item.url);
@@ -103,6 +109,10 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
         } else {
           updateStmt.run(item.categories.join(","), item.img_url, item.price, item.discount, item.best_before, TIMESTAMP_NOW, dbItem.id);
           result.updatedItems++;
+          if (notEqual(dbItem.price, item.price)) {
+            priceChangeStmt.run(dbItem.id, dbItem.price, item.price, TIMESTAMP_NOW);
+            result.priceChanges++;
+          }
         }
       });
 
@@ -111,6 +121,7 @@ function mergeProcessItems(db, dbItems, matsmartItems) {
 
       insertNewStmt.finalize();
       updateStmt.finalize();
+      priceChangeStmt.finalize();
       db.run("COMMIT");
 
       resolve(result);
@@ -142,7 +153,7 @@ async function execute() {
 
   const result = await mergeProcessItems(db, dbItems, matsmartItems);
   await insertUpdateLog(db, matsmartItems.length, result.newItems);
-  console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates.");
+  console.log("Result: " + result.newItems + " new items and " + result.updatedItems + " updates and " + result.priceChanges + " price changes.");
 
   db.close();
 }
