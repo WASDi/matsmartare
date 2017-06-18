@@ -19,6 +19,14 @@ CREATE TABLE items (
  last_seen DATETIME NOT NULL
 );
 
+CREATE TABLE price_changes (
+  id INTEGER PRIMARY KEY,
+  item_id INTEGER NOT NULL,
+  price_before DECIMAL(8,2) NOT NULL,
+  price_after DECIMAL(8,2) NOT NULL,
+  created DATETIME NOT NULL
+);
+
 CREATE TABLE update_logs (
  when_timestamp INTEGER PRIMARY KEY,
  num_web_items INTEGER NOT NULL,
