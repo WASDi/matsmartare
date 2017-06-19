@@ -1,10 +1,10 @@
-.App {
+.ItemPage {
   text-align: center;
   max-width: 900px;
   margin: auto;
 }
 
-.App-header {
+.ItemPage-header {
   max-width: 900px;
   margin: auto;
   height: 90px;
@@ -15,11 +15,11 @@
   background-position: center top;
 }
 
-.App-title {
+.ItemPage-title {
   font-size: 24px;
   margin-bottom: 5px;
 }
 
-.App-subtitle {
+.ItemPage-subtitle {
   margin-bottom: 10px;
 }
