@@ -21,14 +21,32 @@ function fetchCategoriesFromDb(db, callback) {
   });
 }
 
+function fetchPriceChangesFromDb(db, callback) {
+  db.all("SELECT item_id, price_before, price_after, created FROM price_changes ORDER BY created DESC", function(err, rows) {
+    const priceChanegs = [];
+    rows.forEach(row => {
+      priceChanegs.push({
+        item_id: row.item_id,
+        price_before: row.price_before,
+        price_after: row.price_after,
+        created: row.crated
+      });
+    });
+    callback(priceChanegs);
+  });
+}
+
 const db = new sqlite3.Database("matsmartare.db");
 fetchItemsFromDb(db, false).then(items => {
   fetchCategoriesFromDb(db, categories => {
-    const everything = ({
-      categories,
-      items
+    fetchPriceChangesFromDb(db, priceChanges => {
+      const everything = ({
+        categories,
+        items,
+        priceChanges
+      });
+      db.close();
+      writeToFile(everything);
     });
-    db.close();
-    writeToFile(everything);
   });
 });
