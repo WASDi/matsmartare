@@ -23,3 +23,7 @@
 .ItemPage-subtitle {
   margin-bottom: 10px;
 }
+
+.menuButton {
+  cursor: pointer;
+}
