@@ -53,7 +53,7 @@ class ItemPage extends Component {
         <div>
           <Headroom>
             <div className="ItemPage-header">
-              <div className="ItemPage-title">Matsmartare</div>
+              <div className="ItemPage-title">Matsmartare <span className="menuButton" onClick={this.props.onMenuClick}>☰</span></div>
               <div className="ItemPage-subtitle">Ett smidigare gränssnitt till matsmart.se</div>
               <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
             </div>
