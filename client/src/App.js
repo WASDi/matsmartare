@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import fetchItems from './util/ItemFetcher.js';
+import generatePriceChangesItems from './util/PriceChangesItemsGenerator.js';
 import ItemPage from './ItemPage.js';
 import MenuPage from './MenuPage.js';
 import PriceChangesPage from './PriceChangesPage.js';
@@ -8,14 +9,6 @@ const LOADING_PAGE = 0;
 const ITEM_PAGE = 1;
 const MENU_PAGE = 2;
 const PRICE_CHANGES_PAGE = 3;
-
-function createItemIdMap(items) {
-  const itemIdMap = {};
-  items.forEach(item => {
-    itemIdMap[item.id] = item;
-  });
-  return itemIdMap;
-}
 
 class App extends Component {
 
@@ -34,9 +27,8 @@ class App extends Component {
         {
           page: ITEM_PAGE,
           items: data.items,
-          itemIdMap: createItemIdMap(data.items),
           categories: data.categories,
-          priceChanges: data.priceChanges
+          priceChangesItems: generatePriceChangesItems(data.items, data.priceChanges)
         }
       );
     });
@@ -55,7 +47,7 @@ class App extends Component {
   }
 
   render() {
-    const { page, items, itemIdMap, categories, priceChanges } = this.state;
+    const { page, items, categories, priceChangesItems } = this.state;
 
     switch (page) {
       case LOADING_PAGE:
@@ -65,7 +57,7 @@ class App extends Component {
       case MENU_PAGE:
         return <MenuPage gotoItemPage={this.gotoItemPage} gotoPriceChangesPage={this.gotoPriceChangesPage} />;
       case PRICE_CHANGES_PAGE:
-        return <PriceChangesPage onMenuClick={this.gotoMenuPage} itemIdMap={itemIdMap} priceChanges={priceChanges} />;
+        return <PriceChangesPage onMenuClick={this.gotoMenuPage} priceChangesItems={priceChangesItems} />;
       default:
         return <div style={{color: "white"}}>ILLEGAL STATE !!!</div>;
     }
