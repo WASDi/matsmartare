@@ -33,7 +33,8 @@ function fetchItems(callback) {
       });
       callback({
         items: transformedItems,
-        categories: data.categories
+        categories: data.categories,
+        priceChanges: data.priceChanges,
       });
     });
 }
