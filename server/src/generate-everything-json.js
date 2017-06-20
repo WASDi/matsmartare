@@ -29,7 +29,7 @@ function fetchPriceChangesFromDb(db, callback) {
         item_id: row.item_id,
         price_before: row.price_before,
         price_after: row.price_after,
-        created: row.crated
+        created: row.created
       });
     });
     callback(priceChanegs);
