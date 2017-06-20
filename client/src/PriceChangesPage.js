@@ -6,7 +6,7 @@ class PriceChangesPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      priceChangesItems: props.priceChangesItems
+      priceChangeItems: props.priceChangeItems
     };
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import fetchItems from './util/ItemFetcher.js';
-import generatePriceChangesItems from './util/PriceChangesItemsGenerator.js';
+import generatePriceChangeItems from './util/PriceChangesItemsGenerator.js';
 import ItemPage from './ItemPage.js';
 import MenuPage from './MenuPage.js';
 import PriceChangesPage from './PriceChangesPage.js';
@@ -28,7 +28,7 @@ class App extends Component {
           page: ITEM_PAGE,
           items: data.items,
           categories: data.categories,
-          priceChangesItems: generatePriceChangesItems(data.items, data.priceChanges)
+          priceChangeItems: generatePriceChangeItems(data.items, data.priceChanges)
         }
       );
     });
@@ -47,7 +47,7 @@ class App extends Component {
   }
 
   render() {
-    const { page, items, categories, priceChangesItems } = this.state;
+    const { page, items, categories, priceChangeItems } = this.state;
 
     switch (page) {
       case LOADING_PAGE:
@@ -57,7 +57,7 @@ class App extends Component {
       case MENU_PAGE:
         return <MenuPage gotoItemPage={this.gotoItemPage} gotoPriceChangesPage={this.gotoPriceChangesPage} />;
       case PRICE_CHANGES_PAGE:
-        return <PriceChangesPage onMenuClick={this.gotoMenuPage} priceChangesItems={priceChangesItems} />;
+        return <PriceChangesPage onMenuClick={this.gotoMenuPage} priceChangeItems={priceChangeItems} />;
       default:
         return <div style={{color: "white"}}>ILLEGAL STATE !!!</div>;
     }
