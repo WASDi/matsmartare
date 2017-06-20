@@ -6,17 +6,17 @@ function createItemIdMap(items) {
   return itemIdMap;
 }
 
-function generatePriceChangesItems(items, priceChangesRaw) {
+function generatePriceChangeItems(items, priceChangesRaw) {
   const itemIdMap = createItemIdMap(items);
-  const priceChangesItems = [];
+  const priceChangeItems = [];
   priceChangesRaw.forEach(raw => {
-    priceChangesItems.push({
+    priceChangeItems.push({
       itemName: itemIdMap[raw.item_id].name,
       priceBefore: raw.price_before,
       priceAfter: raw.price_after
     });
   });
-  return priceChangesItems;
+  return priceChangeItems;
 }
 
-export default generatePriceChangesItems;
+export default generatePriceChangeItems;
