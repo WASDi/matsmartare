@@ -9,9 +9,12 @@
   background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
   background-position: center top;
   margin: auto;
-  padding-top: 4px;
+  padding-top: 7px;
   color: white;
-  font-size: 32px;
-  height: 40px;
+  font-size: 24px;
+  height: 36px;
+}
+
+.menuButton {
   cursor: pointer;
 }
