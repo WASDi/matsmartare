@@ -1,0 +1,17 @@
+.PriceChangesPage {
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+}
+
+.menuHeader {
+  max-width: 900px;
+  background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
+  background-position: center top;
+  margin: auto;
+  padding-top: 4px;
+  color: white;
+  font-size: 32px;
+  height: 40px;
+  cursor: pointer;
+}
