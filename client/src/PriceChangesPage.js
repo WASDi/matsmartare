@@ -18,7 +18,9 @@ class PriceChangesPage extends Component {
     return (
       <div className="PriceChangesPage">
         <Headroom>
-          <div className="menuHeader" onClick={this.props.onMenuClick}>☰</div>
+          <div className="menuHeader">
+            Prisändringar <span className="menuButton" onClick={this.props.onMenuClick}>☰</span>
+          </div>
         </Headroom>
 
         <PriceChangesList priceChangeItems={this.state.priceChangeItems} />
