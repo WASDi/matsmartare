@@ -1,4 +1,5 @@
 import dateFormat from 'dateformat';
+import formatPrice from './PriceFormatter.js'
 
 function createItemIdMap(items) {
   const itemIdMap = {};
@@ -16,10 +17,11 @@ function generatePriceChangeItems(items, priceChangesRaw) {
     if (item) {
       // Should always be true because server is supposed to filter out price changes for removed items, but just to be safe.
       priceChangeItems.push({
-        itemName: item.name,
-        priceBefore: raw.price_before,
-        priceAfter: raw.price_after,
-        dateOfChange: dateFormat(raw.created * 1000, "yyyy-mm-dd")
+        item: item,
+        priceBefore: formatPrice(raw.price_before),
+        priceAfter: formatPrice(raw.price_after),
+        dateOfChange: dateFormat(raw.created * 1000, "yyyy-mm-dd"),
+        becameCheaper: raw.price_after < raw.price_before
       });
     }
   });

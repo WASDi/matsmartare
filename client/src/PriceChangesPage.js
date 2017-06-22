@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import Headroom from 'react-headroom';
+
 import './PriceChangesPage.css';
+import PriceChangesList from './components/PriceChangesList.js';
+
 
 class PriceChangesPage extends Component {
 
@@ -11,10 +15,13 @@ class PriceChangesPage extends Component {
   }
 
   render() {
-    // this.props.onMenuClick
     return (
-      <div style={{color: "white"}}>
-        PRICE CHANGES !!!
+      <div className="PriceChangesPage">
+        <Headroom>
+          <div className="menuHeader" onClick={this.props.onMenuClick}>☰</div>
+        </Headroom>
+
+        <PriceChangesList priceChangeItems={this.state.priceChangeItems} />
       </div>
     );
   }
