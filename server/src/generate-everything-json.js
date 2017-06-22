@@ -22,7 +22,7 @@ function fetchCategoriesFromDb(db, callback) {
 }
 
 function fetchPriceChangesFromDb(db, callback) {
-  db.all("SELECT item_id, price_before, price_after, created FROM price_changes ORDER BY created DESC", function(err, rows) {
+  db.all("SELECT pc.item_id, pc.price_before, pc.price_after, pc.created FROM price_changes pc JOIN items i ON pc.item_id = i.id WHERE i.last_seen=(SELECT MAX(last_seen) FROM items) ORDER BY pc.created DESC", function(err, rows) {
     const priceChanegs = [];
     rows.forEach(row => {
       priceChanegs.push({
