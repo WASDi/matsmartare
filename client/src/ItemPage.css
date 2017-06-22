@@ -8,8 +8,8 @@
   max-width: 900px;
   margin: auto;
   height: 90px;
-  padding-top: 10px;
-  padding-bottom: 20px;
+  padding-top: 7px;
+  padding-bottom: 13px;
   color: white;
   background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
   background-position: center top;
@@ -17,11 +17,11 @@
 
 .ItemPage-title {
   font-size: 24px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 .ItemPage-subtitle {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .menuButton {
