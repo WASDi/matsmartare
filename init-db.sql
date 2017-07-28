@@ -33,4 +33,9 @@ CREATE TABLE update_logs (
  num_new_items INTEGER NOT NULL
 );
 
+CREATE TABLE avg_discounts (
+  the_date DATE PRIMARY KEY,
+  avg_discount DECIMAL NOT NULL
+);
+
 COMMIT;
