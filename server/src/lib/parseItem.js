@@ -14,7 +14,11 @@ export default function parseItem($, element, categoryId) {
   const name = $(element).find("span.prd-name").first().text().replace(/^\s+|\s+$/g, '');
   const discount = $(element).find("span.prd-discount-oldprice > span").first().text().replace(/^[^\(]+..|..[^\)]+$/g, '');
 
-  let price = $(element).find("div.prd-price-num").first().text().match(/\d+/)[0];
+  let price = 0;
+  let priceMatch = $(element).find("div.prd-price-num").first().text().match(/\d+/);
+  if (priceMatch) {
+    price = priceMatch[0];
+  }
   const itemsForPriceElem = $(element).find("span.prd-mp-text").first();
   if (itemsForPriceElem.length != 0) {
     const itemsForPrice = itemsForPriceElem.text().match(/\d+/)[0];
