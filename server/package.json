@@ -1,6 +1,6 @@
 {
-  "name": "matsmartare",
-  "version": "0.0.0",
+  "name": "matsmartare-server",
+  "version": "0.1.0",
   "scripts": {
     "build": "babel src -d build",
     "repopulate-categories": "node build/repopulate-categories.js",
