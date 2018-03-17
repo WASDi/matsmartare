@@ -5,3 +5,12 @@ body {
   background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
   background-position: center top;
 }
+
+.menuButton {
+    cursor: pointer;
+    color: black;
+    background-color: rgb(247,247,247,0.7);
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0px 2px;
+}
