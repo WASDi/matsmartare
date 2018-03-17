@@ -22,10 +22,19 @@ export default function fetchCategories(callback) {
 
     let categories = [];
     menuItems.each(function(id, element) {
-      let categoryUrl = element.attribs.href;
-      let categoryName = element.children[0].data;
+      let categoryUrl = trimDomain(element.attribs.href);
+      let categoryName = element.children[0].data.trim();
       categories.push(newCategory(id+1, categoryUrl, categoryName));
     });
     callback(categories);
   });
+}
+
+function trimDomain(url) {
+  const domain = 'matsmart.se'
+  let matsmartare_idx = url.indexOf(domain);
+  if (matsmartare_idx != -1) {
+    return url.substr(matsmartare_idx + domain.length)
+  }
+  return url;
 }
