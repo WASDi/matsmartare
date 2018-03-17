@@ -5,12 +5,11 @@ import 'react-select/dist/react-select.css';
 import './SelectPanel.css';
 
 function transformCategories(categories) {
-  const categoryOptions = [];
-  categories.forEach(category => {
-    categoryOptions.push({
-      value: category.id,
-      label: category.name
-    });
+  categories.sort(function(a,b) {return a.name > b.name} );
+  const categoryOptions = categories.map(cat => ({value: cat.id, label: cat.name}));
+  categoryOptions.unshift({
+    value: window.NO_CANDY,
+    label: '[Allt förutom godis]'
   });
   return categoryOptions;
 }
