@@ -20,8 +20,11 @@ main = do
     dbItems <- fetchDbItems
     
     case webItemsOrFail of
-        Left  errorMsg -> putStrLn errorMsg
+        Left  errorMsg -> putStrLn errorMsg >> logError errorMsg
         Right webItems -> process dbItems webItems
+
+logError :: String -> IO ()
+logError = appendFile "/tmp/EXTRA_BIT"
 
 process :: [Item] -> [Item] -> IO ()
 process dbItems webItems = do
