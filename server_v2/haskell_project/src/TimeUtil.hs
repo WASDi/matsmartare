@@ -1,9 +1,4 @@
-{-# LANGUAGE CPP #-}
 module TimeUtil where
-
-#if __GLASGOW_HASKELL__ < 800
-import System.Locale (defaultTimeLocale)
-#endif
 
 import Data.Time.Clock
 import Data.Time.Clock.POSIX
