@@ -16,8 +16,8 @@ type ItemMap = Map.Map Int Item
 
 main :: IO ()
 main = do
-    webItemsOrFail <- fetchWebItems
     dbItems <- fetchDbItems
+    webItemsOrFail <- fetchWebItems
     
     case webItemsOrFail of
         Left  errorMsg -> putStrLn errorMsg >> logError errorMsg
