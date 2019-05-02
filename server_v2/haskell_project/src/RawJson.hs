@@ -23,6 +23,7 @@ data RawItem = RawItem
     , _label      :: String
     , _products   :: [RawProducts]
     , _categories :: [String]
+    , _tags       :: [String]
     , _created    :: String
     } deriving (Show, Generic)
 

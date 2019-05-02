@@ -26,11 +26,11 @@ httpRequest url = fmap (TL.toStrict . TLE.decodeUtf8) (simpleHttp url)
 
 getProducts :: IO T.Text
 getProducts = getFromWebOrFile "https://api.matsmart.se/api/v1.0/product-displays?market=SE"
-                               "jsons/latest/products.json"
+                               "../git_ignore/jsons/latest/products.json"
 
 getRoutes :: IO T.Text
 getRoutes = getFromWebOrFile "https://api.matsmart.se/api/v1.0/routes?market=SE"
-                             "jsons/latest/routes.json"
+                             "../git_ignore/jsons/latest/routes.json"
 
 fetchWebItems :: IO (Either String [Item])
 fetchWebItems = do

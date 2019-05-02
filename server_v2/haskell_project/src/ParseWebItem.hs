@@ -14,7 +14,7 @@ parseRaw urlMap rawItem = case parseRaw' urlMap rawItem of
                               Nothing   -> Left $ "For some reason failed to parse: " ++ (show (RJ._id rawItem))
 
 parseRaw' :: UrlMap -> RJ.RawItem -> Maybe Item
-parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories' _) = do
+parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories tags _) = do
     rawProduct <- oneOrNothing rawProducts
     url <- Data.Map.lookup id'' urlMap
     let prices = RJ._prices rawProduct
@@ -23,7 +23,7 @@ parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories' _) = do
     let img_url = parseImage rawProduct
     let best_before_timestamp = fmap (formatYMD . read) $ RJ._best_before rawProduct
     return $ Item id''
-                  (map read categories')
+                  (map read (categories ++ tags))
                   ('/' : url)
                   img_url
                   label
