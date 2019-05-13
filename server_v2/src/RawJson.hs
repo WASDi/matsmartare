@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric #-}
 module RawJson where
 
 import GHC.Generics
@@ -74,10 +74,3 @@ instance FromJSON RawStyles where
   
 parseRawJson :: T.Text -> Either String RawJsonRoot
 parseRawJson = eitherDecode . BL.fromStrict . TE.encodeUtf8
-
--- theFile = BL.readFile "jsons/small.json"
--- fmap decode theFile :: IO (Maybe JsonRoot)
--- eitherDecode för att se felmeddelanden !!!
--- fmap ((fmap (head . _data)) . decode) theFile :: IO (Maybe Item)
--- firstItem = theFile >>= return . decode >>= return . fmap (head . _data)
-

@@ -40,6 +40,9 @@ getIndexPage = getFromWebOrFile "https://www.matsmart.se/"
 extractPreloadedJson :: T.Text -> Maybe T.Text
 extractPreloadedJson = extract (T.pack "<script>window.__PRELOADED_STATE__=") (T.pack "</script>")
 
+fetchPreloadedJson :: IO (Maybe T.Text)
+fetchPreloadedJson = fmap extractPreloadedJson getIndexPage
+
 fetchWebItems :: IO (Either String [Item])
 fetchWebItems = do
     products <- getProducts
