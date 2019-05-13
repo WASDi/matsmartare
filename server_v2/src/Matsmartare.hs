@@ -5,6 +5,7 @@ import FetchDbItems
 import FetchWebItems
 import InsertUpdateDbItem
 import PriceChangeDetector (PriceChange, parsePriceChanges)
+import Categories.ParseCategories
 
 import qualified Data.Map as Map
 import Data.Time.Clock.POSIX (getPOSIXTime)
@@ -18,6 +19,7 @@ main :: IO ()
 main = do
     dbItems <- fetchDbItems
     webItemsOrFail <- fetchWebItems
+    -- preloadedJson <- fetchPreloadedJson
     
     case webItemsOrFail of
         Left  errorMsg -> putStrLn errorMsg >> logError errorMsg
