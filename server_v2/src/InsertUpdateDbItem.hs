@@ -3,6 +3,8 @@ module InsertUpdateDbItem where
 import Model
 import PriceChangeDetector
 
+import Categories.ParseCategories (Category (Category))
+
 import Database.HDBC
 import Database.HDBC.Sqlite3
 
@@ -51,3 +53,21 @@ priceChangeValues now_timestamp priceChange = [ toSql (item_id priceChange)
                                               , toSql (before priceChange)
                                               , toSql (after priceChange)
                                               , toSql now_timestamp ]
+
+updateCategories :: Connection -> [Category] -> IO ()
+updateCategories conn categories = do
+    wipe <- prepare conn "DELETE FROM categories"
+    stmt <- prepare conn "INSERT INTO categories (id, url, name) VALUES (?, ?, ?)"
+    execute wipe []
+    mapM_ (execute stmt . categoryValues) categories
+
+categoryValues :: Category -> [SqlValue]
+categoryValues (Category id' url name) = [ toSql id'
+                                         , toSql url
+                                         , toSql name ]
+
+insertUpdateLog :: Connection -> Int -> (Int, Int) -> IO ()
+insertUpdateLog conn now_timestamp (num_web_items, num_new_items) = do
+    stmt <- prepare conn "INSERT INTO update_logs (when_timestamp, num_web_items, num_new_items) VALUES (?, ?, ?)"
+    execute stmt [toSql now_timestamp, toSql num_web_items, toSql num_new_items]
+    return ()
