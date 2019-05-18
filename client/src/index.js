@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 
 window.NO_CANDY = -777;
-window.CANDY_ID = 11;
+window.CANDY_ID = 15016;
 
 ReactDOM.render(
   <App />,
