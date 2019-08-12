@@ -1,5 +1,7 @@
 module TimeUtil where
 
+-- import System.Locale (defaultTimeLocale)
+
 import Data.Time.Clock
 import Data.Time.Clock.POSIX
 import Data.Time.Format

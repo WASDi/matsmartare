@@ -1,4 +1,4 @@
-module Main where
+module Matsmartare where
 
 import Model
 import FetchDbItems
@@ -28,7 +28,7 @@ main = do
         Right webItems -> process dbItems webItems preloadedJson
 
 logError :: String -> IO ()
-logError = appendFile "/tmp/EXTRA_BIT"
+logError = appendFile "/tmp/EXTRA_BIT" . (++ "\n")
 
 process :: [Item] -> [Item] -> Maybe T.Text -> IO ()
 process dbItems webItems categories = do

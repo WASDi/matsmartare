@@ -1,4 +1,4 @@
-module Main where
+module TestPriceChange where
 
 import RawJson
 import ParseModel
