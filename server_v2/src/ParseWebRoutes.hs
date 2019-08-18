@@ -20,7 +20,7 @@ import           Data.Aeson.Types
 type UrlMap = Map Int String
 
 parseRoutes :: T.Text -> Either String UrlMap
-parseRoutes input = (decodeIt input) >>= (return . parseRoutes')
+parseRoutes input = parseRoutes' <$> decodeIt input
 
 decodeIt :: T.Text -> Either String JsonRoot
 decodeIt = eitherDecode . BL.fromStrict . TE.encodeUtf8

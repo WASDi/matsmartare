@@ -60,7 +60,7 @@ fetchWebItems = do
 
 parse' :: UrlMap -> RawJsonRoot -> Either String [Item]
 parse' urlMap json =
-  let parseResult = fmap (parseRaw urlMap) $ _data json
+  let parseResult = map (parseRaw urlMap) (_data json)
       fails = lefts parseResult
       items = rights parseResult
    in if null fails

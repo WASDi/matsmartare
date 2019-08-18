@@ -44,22 +44,21 @@ instance FromJSON CategoryJson where
   parseJSON = withObject "CategoryJson" parseCategoryJson
 
 parseCategoryJson :: Object -> Parser CategoryJson
-parseCategoryJson =
-  \obj -> do
-    id' <-
-      case HM.lookup "id" obj of
-        Just x  -> intStringParser x
-        Nothing -> fail "no field 'id'"
-    label' <- obj .: "label"
-    return $ CategoryJson id' label'
+parseCategoryJson obj = do
+  id' <-
+    case HM.lookup "id" obj of
+      Just x  -> intStringParser x
+      Nothing -> fail "no field 'id'"
+  label' <- obj .: "label"
+  return $ CategoryJson id' label'
 
 intStringParser :: Value -> Parser Int
 intStringParser (Number n) = forceInt n
 intStringParser (String s) = return (read $ T.unpack s)
-intStringParser v          = fail $ "Unexpected type for " ++ (show v)
+intStringParser v          = fail $ "Unexpected type for " ++ show v
 
 forceInt :: DS.Scientific -> Parser Int
 forceInt x =
   case DS.toBoundedInteger x of
     Just int -> return int
-    Nothing  -> fail $ "Not integer: " ++ (show x)
+    Nothing  -> fail $ "Not integer: " ++ show x
