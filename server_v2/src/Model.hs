@@ -1,8 +1,9 @@
 module Model where
 
-import Data.List (intercalate)
+import           Data.List (intercalate)
 
-data Item = Item
+data Item =
+  Item
     { id'                 :: Int
     , categories          :: [Int]
     , url                 :: String
@@ -10,10 +11,9 @@ data Item = Item
     , name                :: String
     , new_price           :: Double
     , discount_percentage :: Int
-    
     , best_before         :: Maybe String -- yyyy-mm-dd
-        
-    } deriving Show
+    }
+  deriving (Show)
 
 categoriesToString :: Item -> String
 categoriesToString = intercalate "," . map show . categories

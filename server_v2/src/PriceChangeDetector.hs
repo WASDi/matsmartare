@@ -1,12 +1,14 @@
 module PriceChangeDetector where
 
-import Model
+import           Model
 
-data PriceChange = PriceChange
+data PriceChange =
+  PriceChange
     { item_id :: Int
     , before  :: Double
     , after   :: Double
-    } deriving (Show)
+    }
+  deriving (Show)
 
 parsePriceChanges :: [(Item, Item)] -> [PriceChange]
 parsePriceChanges = map toPriceChange . filter hasPriceDiff
