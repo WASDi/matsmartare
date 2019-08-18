@@ -1,4 +1,7 @@
-resolver: lts-6.35
+resolver: lts-7.24
 
 packages:
 - .
+
+extra-deps:
+- HDBC-sqlite3-2.3.3.1
