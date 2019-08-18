@@ -38,16 +38,16 @@ process dbItems webItems categories = do
   let priceChanges = parsePriceChanges inBoth
   now_timestamp <- unixTimestamp
   conn <- connectSqlite3 "matsmartare.db"
-  putStrLn $ "num dbItems " ++ (show $ length dbItems)
-  putStrLn $ "num webItems " ++ (show $ length webItems)
-  putStrLn $ "num newItems " ++ (show $ length newItems)
-  putStrLn $ "num priceChanges " ++ (show $ length priceChanges)
+  putStrLn $ "num dbItems " ++ show (length dbItems)
+  putStrLn $ "num webItems " ++ show (length webItems)
+  putStrLn $ "num newItems " ++ show (length newItems)
+  putStrLn $ "num priceChanges " ++ show (length priceChanges)
   DB.insertNewItems conn now_timestamp newItems
   DB.updateItems conn now_timestamp (map snd inBoth)
   DB.insertPriceChanges conn now_timestamp priceChanges
   DB.insertUpdateLog conn now_timestamp (length webItems, length newItems)
   numCategories <- processCategories conn categories
-  putStrLn $ "num categories " ++ (show numCategories)
+  putStrLn $ "num categories " ++ show numCategories
   commit conn
   disconnect conn
 
