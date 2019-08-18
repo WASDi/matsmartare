@@ -1,55 +1,70 @@
 {-# LANGUAGE DeriveGeneric #-}
+
 module RawJson where
 
-import GHC.Generics
+import           GHC.Generics
 
-import Data.Aeson
-import Data.Aeson.Types
+import           Data.Aeson
+import           Data.Aeson.Types
 
 import qualified Data.ByteString.Lazy.Char8 as BL
 
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
+import qualified Data.Text                  as T
+import qualified Data.Text.Encoding         as TE
 
-parseDrop1 = defaultOptions { fieldLabelModifier = drop 1 }
+parseDrop1 = defaultOptions {fieldLabelModifier = drop 1}
 
-data RawJsonRoot = RawJsonRoot
+data RawJsonRoot =
+  RawJsonRoot
     { _count :: Int
     , _data  :: [RawItem]
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-data RawItem = RawItem
+data RawItem =
+  RawItem
     { _id         :: Int
     , _label      :: String
     , _products   :: [RawProducts]
     , _categories :: [String]
     , _tags       :: [String]
     , _created    :: String
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-data RawProducts = RawProducts
+data RawProducts =
+  RawProducts
     { _best_before :: Maybe String
     , _prices      :: RawPrices
     , _images      :: [RawImages]
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-data RawPrices = RawPrices
+data RawPrices =
+  RawPrices
     { _old_price   :: Maybe RawPrice
     , _price       :: RawPrice
     , _price_table :: Maybe RawPrice
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-newtype RawPrice = RawPrice
+newtype RawPrice =
+  RawPrice
     { _amount :: String
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-newtype RawImages = RawImages
+newtype RawImages =
+  RawImages
     { _styles :: RawStyles
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
-newtype RawStyles = RawStyles
+newtype RawStyles =
+  RawStyles
     { _product_teaser :: String
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
 instance FromJSON RawJsonRoot where
   parseJSON = genericParseJSON parseDrop1
@@ -71,6 +86,6 @@ instance FromJSON RawImages where
 
 instance FromJSON RawStyles where
   parseJSON = genericParseJSON parseDrop1
-  
+
 parseRawJson :: T.Text -> Either String RawJsonRoot
 parseRawJson = eitherDecode . BL.fromStrict . TE.encodeUtf8

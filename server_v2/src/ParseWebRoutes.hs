@@ -1,21 +1,21 @@
-{-# LANGUAGE OverloadedStrings, DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric     #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module ParseWebRoutes
-       (
-         parseRoutes,
-         UrlMap
-       )
-       where
+  ( parseRoutes
+  , UrlMap
+  ) where
 
 import qualified Data.ByteString.Lazy.Char8 as BL
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as TE
+import qualified Data.Text                  as T
+import qualified Data.Text.Encoding         as TE
 
-import Data.Map -- TODO qualified as Map
+import           Data.Map -- TODO qualified as Map
 
-import GHC.Generics
+import           GHC.Generics
 
-import Data.Aeson
-import Data.Aeson.Types
+import           Data.Aeson
+import           Data.Aeson.Types
 
 type UrlMap = Map Int String
 
@@ -34,15 +34,19 @@ toKeyValue = Prelude.map toKeyValue' . Prelude.filter ((==) "product-displays" .
 toKeyValue' :: Route -> (Int, String)
 toKeyValue' (Route id' url _) = (read id', url)
 
-newtype JsonRoot = JsonRoot
-    { _data  :: [Route]
-    } deriving (Show, Generic)
+newtype JsonRoot =
+  JsonRoot
+    { _data :: [Route]
+    }
+  deriving (Show, Generic)
 
-data Route = Route
+data Route =
+  Route
     { _id       :: String
     , _alias    :: String
     , _resource :: String
-    } deriving (Show, Generic)
+    }
+  deriving (Show, Generic)
 
 instance FromJSON JsonRoot where
   parseJSON = genericParseJSON parseDrop1
@@ -50,4 +54,4 @@ instance FromJSON JsonRoot where
 instance FromJSON Route where
   parseJSON = genericParseJSON parseDrop1
 
-parseDrop1 = defaultOptions { fieldLabelModifier = drop 1 }
+parseDrop1 = defaultOptions {fieldLabelModifier = drop 1}
