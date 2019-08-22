@@ -1,6 +1,9 @@
 all:
 	stack build
 
+run:
+	stack exec matsmartare
+
 ghcid:
 	ghcid -c 'stack ghci matsmartare'
 
