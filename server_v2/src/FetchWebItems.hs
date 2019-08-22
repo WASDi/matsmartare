@@ -14,7 +14,7 @@ import qualified Data.Text.Lazy.Encoding as TLE
 import           Data.Either             (lefts, rights)
 
 import           Data.Time.Clock.POSIX   (getPOSIXTime)
-import           Network.HTTP.Conduit
+import           System.Process          (readProcess)
 
 onlineMode :: Bool
 onlineMode = True
@@ -26,7 +26,7 @@ getFromWebOrFile url file =
     else TIO.readFile file
 
 httpRequest :: String -> IO T.Text
-httpRequest url = fmap (TL.toStrict . TLE.decodeUtf8) (simpleHttp url)
+httpRequest url = T.pack <$> readProcess "wget" ["-O", "-", "--quiet", url] []
 
 getProducts :: IO T.Text
 getProducts =

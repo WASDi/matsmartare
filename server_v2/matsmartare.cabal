@@ -40,7 +40,7 @@ library
     containers,
     time,
     text,
-    http-conduit,
+    process,
     aeson >= 0.7 && < 1,
     unordered-containers,
     scientific
