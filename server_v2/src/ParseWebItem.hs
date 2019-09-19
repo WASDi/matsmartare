@@ -18,7 +18,7 @@ parseRaw urlMap rawItem =
 parseRaw' :: UrlMap -> RJ.RawItem -> Maybe Item
 parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories tags _) = do
   rawProduct <- oneOrNothing rawProducts
-  url <- Data.Map.lookup id'' urlMap
+  let url = fromMaybe "#NO_URL" $ Data.Map.lookup id'' urlMap
   let prices = RJ._prices rawProduct
   let new_price = parseNewPrice prices
   let old_price = maybe new_price parseAmount (RJ._old_price prices)

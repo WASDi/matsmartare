@@ -1,3 +1,5 @@
+TMPFILE := $(shell mktemp)
+
 all:
 	stack build
 
@@ -9,3 +11,8 @@ ghcid:
 
 ghcid-test:
 	ghcid -c 'stack ghci test/Spec.hs'
+
+dependencies:
+	stack dot --external > $(TMPFILE)
+	xdot $(TMPFILE)
+	rm $(TMPFILE)
