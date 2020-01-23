@@ -9,14 +9,7 @@ parseDbItems = map parseDbItem
 
 parseDbItem :: [SqlValue] -> Item
 parseDbItem row =
-  let id = row !! 0
-      categories = row !! 1
-      url = row !! 2
-      img_url = row !! 3
-      name = row !! 4
-      price = row !! 5
-      discount = row !! 6
-      best_before = row !! 7
+  let [id, categories, url, img_url, name, price, discount, best_before, max_purchase] = row
    in Item
         (fromSql id)
         (parseCategories categories)
@@ -26,6 +19,7 @@ parseDbItem row =
         (fromSql price)
         (fromSql discount)
         (fromSql best_before)
+        (fromSql max_purchase)
 
 parseCategories :: SqlValue -> [Int]
 parseCategories =

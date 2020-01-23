@@ -12,6 +12,7 @@ data Item =
     , new_price           :: Double
     , discount_percentage :: Int
     , best_before         :: Maybe String -- yyyy-mm-dd
+    , max_purchase        :: Maybe Int
     }
   deriving (Show)
 

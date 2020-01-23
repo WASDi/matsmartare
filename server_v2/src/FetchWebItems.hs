@@ -32,14 +32,14 @@ getProducts :: IO T.Text
 getProducts =
   getFromWebOrFile
     "https://api.matsmart.se/api/v1.0/product-displays?market=SE"
-    "../git_ignore/jsons/latest/products.json"
+    "git_ignore/jsons/latest/products.json"
 
 getRoutes :: IO T.Text
 getRoutes =
-  getFromWebOrFile "https://api.matsmart.se/api/v1.0/routes?market=SE" "../git_ignore/jsons/latest/routes.json"
+  getFromWebOrFile "https://api.matsmart.se/api/v1.0/routes?market=SE" "git_ignore/jsons/latest/routes.json"
 
 getIndexPage :: IO T.Text
-getIndexPage = getFromWebOrFile "https://www.matsmart.se/" "../git_ignore/index.html"
+getIndexPage = getFromWebOrFile "https://www.matsmart.se/" "git_ignore/index.html"
 
 extractPreloadedJson :: T.Text -> Maybe T.Text
 extractPreloadedJson = extract (T.pack "<script>window.__PRELOADED_STATE__=") (T.pack "</script>")
