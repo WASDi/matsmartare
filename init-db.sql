@@ -15,6 +15,7 @@ CREATE TABLE items (
  price DECIMAL(8,2) NOT NULL,
  discount INTEGER NOT NULL,
  best_before TEXT,
+ max_purchase INTEGER,
  first_seen DATETIME NOT NULL,
  last_seen DATETIME NOT NULL
 );
@@ -24,6 +25,7 @@ CREATE TABLE price_changes (
   item_id INTEGER NOT NULL,
   price_before DECIMAL(8,2) NOT NULL,
   price_after DECIMAL(8,2) NOT NULL,
+  max_purchase INTEGER,
   created DATETIME NOT NULL
 );
 

@@ -24,6 +24,7 @@ parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories tags _) = do
   let old_price = maybe new_price parseAmount (RJ._old_price prices)
   let img_url = parseImage rawProduct
   let best_before_timestamp = formatYMD . read <$> RJ._best_before rawProduct
+  let max_purchase = readMaybeInt $ RJ._max_purchase rawProduct
   return $
     Item
       id''
@@ -34,6 +35,7 @@ parseRaw' urlMap (RJ.RawItem id'' label rawProducts categories tags _) = do
       new_price
       (discountPercentage new_price old_price)
       best_before_timestamp
+      max_purchase
 
 discountPercentage :: Double -> Double -> Int
 discountPercentage new old = round $ (1 - new / old) * 100
@@ -53,3 +55,8 @@ parseNewPrice (RJ.RawPrices _ price bulkPrice) = parseAmount $ fromMaybe price b
 
 parseAmount :: RJ.RawPrice -> Double
 parseAmount = (/ 100) . read . RJ._amount
+
+readMaybeInt :: String -> Maybe Int
+readMaybeInt s = case reads s of
+                 [(x, "")] -> Just x
+                 _ -> Nothing

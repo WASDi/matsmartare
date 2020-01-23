@@ -9,12 +9,12 @@ import           Database.HDBC
 import           Database.HDBC.Sqlite3
 
 sql_insert =
-  "INSERT INTO items (id, categories, url, img_url, name, price, discount, best_before, first_seen, last_seen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+  "INSERT INTO items (id, categories, url, img_url, name, price, discount, best_before, first_seen, last_seen, max_purchase) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
 sql_update =
-  "UPDATE items SET categories = ?, img_url = ?, price = ?, discount = ?, best_before = ?, last_seen = ? WHERE id = ?"
+  "UPDATE items SET categories = ?, img_url = ?, price = ?, discount = ?, best_before = ?, last_seen = ?, max_purchase = ? WHERE id = ?"
 
-sql_price_change = "INSERT INTO price_changes (item_id, price_before, price_after, created) VALUES (?, ?, ?, ?)"
+sql_price_change = "INSERT INTO price_changes (item_id, price_before, price_after, max_purchase, created) VALUES (?, ?, ?, ?, ?)"
 
 insertNewItems :: Connection -> Int -> [Item] -> IO ()
 insertNewItems conn now_timestamp items = do
@@ -43,6 +43,7 @@ insertValues now_timestamp item =
   , toSql (best_before item)
   , toSql now_timestamp
   , toSql now_timestamp
+  , toSql (max_purchase item)
   ]
 
 updateValues :: Int -> Item -> [SqlValue]
@@ -53,12 +54,13 @@ updateValues now_timestamp item =
   , toSql (discount_percentage item)
   , toSql (best_before item)
   , toSql now_timestamp
+  , toSql (max_purchase item)
   , toSql (id' item)
   ]
 
 priceChangeValues :: Int -> PriceChange -> [SqlValue]
 priceChangeValues now_timestamp priceChange =
-  [toSql (item_id priceChange), toSql (before priceChange), toSql (after priceChange), toSql now_timestamp]
+  [toSql (item_id priceChange), toSql (before priceChange), toSql (after priceChange), toSql (max_purchase' priceChange), toSql now_timestamp]
 
 updateCategories :: Connection -> [Category] -> IO ()
 updateCategories conn categories = do

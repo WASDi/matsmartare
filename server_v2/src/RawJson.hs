@@ -34,9 +34,10 @@ data RawItem =
 
 data RawProducts =
   RawProducts
-    { _best_before :: Maybe String
-    , _prices      :: RawPrices
-    , _images      :: [RawImages]
+    { _best_before  :: Maybe String
+    , _max_purchase :: String
+    , _prices       :: RawPrices
+    , _images       :: [RawImages]
     }
   deriving (Show, Generic)
 

@@ -1,2 +1,6 @@
 .stack-work
+.idea
+matsmartare.iml
+out
+stack.yaml.lock
 git_ignore
