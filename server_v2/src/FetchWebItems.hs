@@ -42,7 +42,7 @@ getIndexPage :: IO T.Text
 getIndexPage = getFromWebOrFile "https://www.matsmart.se/" "git_ignore/index.html"
 
 extractPreloadedJson :: T.Text -> Maybe T.Text
-extractPreloadedJson = extract (T.pack "<script>window.__PRELOADED_STATE__=") (T.pack "</script>")
+extractPreloadedJson = extract (T.pack "<script>window.__PRELOADED_STATE__=") (T.pack ",window.__")
 
 fetchPreloadedJson :: IO (Maybe T.Text)
 fetchPreloadedJson = fmap extractPreloadedJson getIndexPage
