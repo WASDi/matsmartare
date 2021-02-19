@@ -7,6 +7,8 @@ import           GHC.Generics
 import           Data.Aeson
 import           Data.Aeson.Types
 
+import           Data.Scientific (floatingOrInteger)
+
 import qualified Data.ByteString.Lazy.Char8 as BL
 
 import qualified Data.Text                  as T
@@ -26,16 +28,16 @@ data RawItem =
     { _id         :: Int
     , _label      :: String
     , _products   :: [RawProducts]
-    , _categories :: [String]
-    , _tags       :: [String]
-    , _created    :: String
+    , _categories :: [Int]
+    , _tags       :: [Int]
+    , _created    :: Int
     }
   deriving (Show, Generic)
 
 data RawProducts =
   RawProducts
-    { _best_before  :: Maybe String
-    , _max_purchase :: String
+    { _best_before  :: Maybe Value
+    , _max_purchase :: Maybe Value
     , _prices       :: RawPrices
     , _images       :: [RawImages]
     }
@@ -51,7 +53,7 @@ data RawPrices =
 
 newtype RawPrice =
   RawPrice
-    { _amount :: String
+    { _amount :: Int
     }
   deriving (Show, Generic)
 
@@ -90,3 +92,9 @@ instance FromJSON RawStyles where
 
 parseRawJson :: T.Text -> Either String RawJsonRoot
 parseRawJson = eitherDecode . BL.fromStrict . TE.encodeUtf8
+
+getIfInt :: Maybe Value -> Maybe Int
+getIfInt (Just (Number n)) = case floatingOrInteger n of
+    Left _ -> Nothing
+    Right n -> Just $ fromIntegral n
+getIfInt _ = Nothing

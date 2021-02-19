@@ -31,12 +31,12 @@ httpRequest url = T.pack <$> readProcess "wget" ["-O", "-", "--quiet", url] []
 getProducts :: IO T.Text
 getProducts =
   getFromWebOrFile
-    "https://api.matsmart.se/api/v1.0/product-displays?market=SE"
-    "git_ignore/jsons/latest/products.json"
+    "https://api.matsmart.se/api/product-displays?market=SE"
+    "git_ignore/products.json"
 
 getRoutes :: IO T.Text
 getRoutes =
-  getFromWebOrFile "https://api.matsmart.se/api/v1.0/routes?market=SE" "git_ignore/jsons/latest/routes.json"
+  getFromWebOrFile "https://api.matsmart.se/api/v1.0/routes?market=SE" "git_ignore/routes.json"
 
 getIndexPage :: IO T.Text
 getIndexPage = getFromWebOrFile "https://www.matsmart.se/" "git_ignore/index.html"
@@ -52,10 +52,10 @@ fetchWebItems = do
   products <- getProducts
   routes <- getRoutes
   case parseRoutes routes of
-    Left errorMsg -> return $ Left errorMsg
+    Left errorMsg -> return $ Left ("(parseRoutes) " ++ errorMsg)
     Right urlMap ->
       case parseRawJson products of
-        Left errorMsg  -> return $ Left errorMsg
+        Left errorMsg  -> return $ Left ("(parseRawJson) " ++ errorMsg)
         Right jsonRoot -> return $ parse' urlMap jsonRoot
 
 parse' :: UrlMap -> RawJsonRoot -> Either String [Item]
