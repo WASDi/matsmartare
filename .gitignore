@@ -1,1 +1,6 @@
 matsmartare.db
+.DS_Store
+.idea/
+.venv/
+.ipynb_checkpoints/
+package-lock.json

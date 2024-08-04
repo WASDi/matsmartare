@@ -6,7 +6,7 @@
 
 .menuHeader {
   max-width: 900px;
-  background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
+  background: url('./../public/bg.jpg');
   background-position: center top;
   margin: auto;
   padding-top: 7px;
