@@ -27,7 +27,7 @@ a {
 }
 
 .itemPrice {
-  background: url(http://cdn1.matsmart.se/sites/all/themes/retailshop/images/icons/star.svg) no-repeat;
+  background: url('./../../public/star.svg') no-repeat;
   display: inline-table;
   height: 50px;
   width: 50px;

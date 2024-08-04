@@ -11,7 +11,7 @@
   padding-top: 7px;
   padding-bottom: 13px;
   color: white;
-  background: url('http://cdn4.matsmart.se/sites/all/themes/retailshop/images/bg.jpg');
+  background: url('./../public/bg.jpg');
   background-position: center top;
 }
 
