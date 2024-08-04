@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import Dropdown from './Dropdown.js';
 
-import 'react-select/dist/react-select.css';
 import './SelectPanel.css';
 
 function transformCategories(categories) {
