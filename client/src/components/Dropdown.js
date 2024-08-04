@@ -12,14 +12,20 @@ export default class Dropdown extends PureComponent {
   }
 
   updateValue (newOption) {
-		this.setState({
-			selectOption: newOption
-		});
+    this.setState({
+      selectOption: newOption
+    });
     this.props.onChange(newOption ? newOption.value : null);
-	}
+  }
 
   render () {
     const {placeholder, align, options, mandatory} = this.props;
+    const customStyles = {
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? '#333' : '#666',
+      }),
+    };
     return (
       <div className="dropdown" style={{float: align}}>
         <Select
@@ -29,6 +35,7 @@ export default class Dropdown extends PureComponent {
           searchable={false}
           placeholder={placeholder}
           clearable={!mandatory}
+          styles={customStyles}
         />
       </div>
     )
