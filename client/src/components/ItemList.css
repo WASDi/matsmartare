@@ -28,10 +28,9 @@ a {
 
 .itemPrice {
   background: url('./../../public/star.svg') no-repeat;
-  display: inline-table;
   height: 50px;
   width: 50px;
-  line-height: 50px;
+  line-height: 45px;
   text-align: center;
   color: white;
   margin-right: 10px;
