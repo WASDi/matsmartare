@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 import jsondiff
+from tqdm import tqdm
 
 logging.basicConfig(format='%(asctime)s: %(message)s', level=logging.INFO)
 
@@ -52,6 +53,13 @@ def calculate_price_changes(old_prices, new_prices, timestamp):
             }
 
 
+def restore_first_seen(old_items, new_items):
+    original = {item['id']: item['first_seen'] for item in old_items}
+    for item in new_items:
+        if item['id'] in original:
+            item['first_seen'] = original[item['id']]
+
+
 diff_folder = 'data/diffs'
 diff_files = sorted(os.listdir(diff_folder))
 differ = jsondiff.JsonDiffer(marshal=True)
@@ -63,9 +71,10 @@ items = [parse_item(item, 0) for item in raw.values()]
 prices = {item['id']: item['price'] for item in items}
 
 # TODO option to not replay from start
+# TODO remove out of stock
 
 price_changes = []
-for diff_file in diff_files:
+for diff_file in tqdm(diff_files):
     timestamp = diff_file_timestamp(diff_file)
     with open(os.path.join(diff_folder, diff_file), 'r') as f:
         raw = differ.patch(raw, json.load(f))
@@ -76,7 +85,9 @@ for diff_file in diff_files:
     for change in calculate_price_changes(prices, new_prices, timestamp):
         price_changes.append(change)
 
-    items = new_items  # TODO don't overwrite first_seen
+    restore_first_seen(items, new_items)
+
+    items = new_items
     prices = new_prices
 
 # TODO remove price changes of removed items
