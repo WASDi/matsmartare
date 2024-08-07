@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 from datetime import datetime
 
 import jsondiff
@@ -22,7 +23,9 @@ def extract_categories(raw_items):
     for item in raw_items.values():
         for cat in item['computed_categories']:
             categories.add((cat['id'], cat['name']))
-    return [{'id': cat[0], 'name': cat[1]} for cat in categories]
+    result = [{'id': cat[0], 'name': cat[1]} for cat in categories]
+    result.sort(key = lambda x: (x['name'], x['id']))
+    return result
 
 
 def parse_item(raw_item, timestamp):
@@ -60,7 +63,7 @@ def restore_first_seen(old_items, new_items):
             item['first_seen'] = original[item['id']]
 
 
-def main():
+def perform_replay():
     diff_folder = 'data/diffs'
     diff_files = sorted(os.listdir(diff_folder))
     differ = jsondiff.JsonDiffer(marshal=True)
@@ -70,9 +73,6 @@ def main():
 
     items = [parse_item(item, 0) for item in raw.values()]
     prices = {item['id']: item['price'] for item in items}
-
-    # TODO option to not replay from start
-    # TODO remove out of stock
 
     price_changes = []
     for diff_file in tqdm(diff_files):
@@ -91,15 +91,48 @@ def main():
         items = new_items
         prices = new_prices
 
-    # TODO remove price changes of removed items
-
-    everything = {
+    items.sort(key = lambda x: x['id'])
+    return {
         'categories': extract_categories(raw),
         'items': items,
-        'priceChanges': price_changes
+        'priceChanges': price_changes[::-1]
     }
 
-    with open('everything.json', 'w') as f:
+
+def perform_increment():
+    timestamp = diff_file_timestamp(max(os.listdir('data/diffs')))
+
+    with open('data/everything.json', 'r') as f:
+        old_everything = json.load(f)
+    with open('data/latest.json', 'r') as f:
+        raw = json.load(f)
+
+    items = old_everything['items']
+    prices = {item['id']: item['price'] for item in items}
+
+    new_items = [parse_item(item, timestamp) for item in raw.values()]
+    new_prices = {item['id']: item['price'] for item in new_items}
+
+    price_changes = list(calculate_price_changes(prices, new_prices, timestamp))
+    restore_first_seen(items, new_items)
+
+    new_items.sort(key = lambda x: x['id'])
+    return {
+        'categories': extract_categories(raw),
+        'items': new_items,
+        'priceChanges': price_changes + old_everything['priceChanges']
+    }
+
+
+def main():
+    replay = len(sys.argv) > 1 and sys.argv[1] == '--replay'
+    if replay:
+        everything = perform_replay()
+    else:
+        everything = perform_increment()
+
+    # TODO remove price changes of removed items
+    with open('data/everything.json', 'w') as f:
         json.dump(everything, f)
 
 
