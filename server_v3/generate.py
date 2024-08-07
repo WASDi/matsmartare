@@ -60,43 +60,48 @@ def restore_first_seen(old_items, new_items):
             item['first_seen'] = original[item['id']]
 
 
-diff_folder = 'data/diffs'
-diff_files = sorted(os.listdir(diff_folder))
-differ = jsondiff.JsonDiffer(marshal=True)
+def main():
+    diff_folder = 'data/diffs'
+    diff_files = sorted(os.listdir(diff_folder))
+    differ = jsondiff.JsonDiffer(marshal=True)
 
-with open('data/initial.json', 'r') as f:
-    raw = json.load(f)
+    with open('data/initial.json', 'r') as f:
+        raw = json.load(f)
 
-items = [parse_item(item, 0) for item in raw.values()]
-prices = {item['id']: item['price'] for item in items}
+    items = [parse_item(item, 0) for item in raw.values()]
+    prices = {item['id']: item['price'] for item in items}
 
-# TODO option to not replay from start
-# TODO remove out of stock
+    # TODO option to not replay from start
+    # TODO remove out of stock
 
-price_changes = []
-for diff_file in tqdm(diff_files):
-    timestamp = diff_file_timestamp(diff_file)
-    with open(os.path.join(diff_folder, diff_file), 'r') as f:
-        raw = differ.patch(raw, json.load(f))
+    price_changes = []
+    for diff_file in tqdm(diff_files):
+        timestamp = diff_file_timestamp(diff_file)
+        with open(os.path.join(diff_folder, diff_file), 'r') as f:
+            raw = differ.patch(raw, json.load(f))
 
-    new_items = [parse_item(item, timestamp) for item in raw.values()]
-    new_prices = {item['id']: item['price'] for item in new_items}
+        new_items = [parse_item(item, timestamp) for item in raw.values()]
+        new_prices = {item['id']: item['price'] for item in new_items}
 
-    for change in calculate_price_changes(prices, new_prices, timestamp):
-        price_changes.append(change)
+        for change in calculate_price_changes(prices, new_prices, timestamp):
+            price_changes.append(change)
 
-    restore_first_seen(items, new_items)
+        restore_first_seen(items, new_items)
 
-    items = new_items
-    prices = new_prices
+        items = new_items
+        prices = new_prices
 
-# TODO remove price changes of removed items
+    # TODO remove price changes of removed items
 
-everything = {
-    'categories': extract_categories(raw),
-    'items': items,
-    'priceChanges': price_changes
-}
+    everything = {
+        'categories': extract_categories(raw),
+        'items': items,
+        'priceChanges': price_changes
+    }
 
-with open('everything.json', 'w') as f:
-    json.dump(everything, f)
+    with open('everything.json', 'w') as f:
+        json.dump(everything, f)
+
+
+if __name__ == "__main__":
+    main()
