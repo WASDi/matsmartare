@@ -24,7 +24,7 @@ def extract_categories(raw_items):
         for cat in item['computed_categories']:
             categories.add((cat['id'], cat['name']))
     result = [{'id': cat[0], 'name': cat[1]} for cat in categories]
-    result.sort(key = lambda x: (x['name'], x['id']))
+    result.sort(key=lambda x: (x['name'], x['id']))
     return result
 
 
@@ -38,10 +38,7 @@ def parse_item(raw_item, timestamp):
         'price': float(raw_item['computed_variations'][0]['resolved_price']['number']),  # TODO verify lowest bulk
         'discount': raw_item['computed_variations'][0]['savings_percentage'],
         'best_before': raw_item['computed_variations'][0]['best_before'],
-        'first_seen': timestamp,
-        'not_waste': raw_item['body'] is not None
-                     and ('inte räddad' in raw_item['body']['value'] or
-                          'kompletterar vårt räddade' in raw_item['body']['value'])
+        'first_seen': timestamp
     }
 
 
@@ -61,6 +58,14 @@ def restore_first_seen(old_items, new_items):
     for item in new_items:
         if item['id'] in original:
             item['first_seen'] = original[item['id']]
+
+
+def populate_waste_status(items, raw):
+    for item in items:
+        raw_item = raw[str(item['id'])]
+        item['not_waste'] = (raw_item['body'] is not None
+                             and ('inte räddad' in raw_item['body']['value'] or
+                                  'kompletterar vårt räddade' in raw_item['body']['value']))
 
 
 def perform_replay():
@@ -91,7 +96,8 @@ def perform_replay():
         items = new_items
         prices = new_prices
 
-    items.sort(key = lambda x: x['id'])
+    items.sort(key=lambda x: x['id'])
+    populate_waste_status(items, raw)
     return {
         'categories': extract_categories(raw),
         'items': items,
@@ -116,7 +122,8 @@ def perform_increment():
     price_changes = list(calculate_price_changes(prices, new_prices, timestamp))
     restore_first_seen(items, new_items)
 
-    new_items.sort(key = lambda x: x['id'])
+    new_items.sort(key=lambda x: x['id'])
+    populate_waste_status(new_items, raw)
     return {
         'categories': extract_categories(raw),
         'items': new_items,
