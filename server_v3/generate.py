@@ -36,7 +36,7 @@ def parse_item(raw_item, timestamp):
         'url': raw_item['path']['alias'],
         'img_url': raw_item['computed_variations'][0]['computed_images'][0]['styles']['thumbnail'],
         'name': raw_item['title'],
-        'price': float(raw_item['computed_variations'][0]['resolved_price']['number']),  # TODO verify lowest bulk
+        'price': min(float(p['price']['number']) for p in raw_item['computed_variations'][0]['prices']),
         'discount': raw_item['computed_variations'][0]['savings_percentage'],
         'best_before': raw_item['computed_variations'][0]['best_before'],
         'first_seen': timestamp,
