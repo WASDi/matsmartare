@@ -25,14 +25,16 @@ export default class ItemList extends PureComponent {
     this._rowRenderer = this._rowRenderer.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const needsForceUpdate = nextProps.items.length === this.state.items.length;
-    this.setState({
-      items: nextProps.items
-    });
-
-    if (needsForceUpdate) {
-      this.listRef.forceUpdateGrid();
+  componentDidUpdate(prevProps) {
+    if (prevProps.items !== this.props.items) {
+      const needsForceUpdate = this.props.items.length === this.state.items.length;
+      this.setState({
+        items: this.props.items
+      }, () => {
+        if (needsForceUpdate) {
+          this.listRef.forceUpdateGrid();
+        }
+      });
     }
   }
 
