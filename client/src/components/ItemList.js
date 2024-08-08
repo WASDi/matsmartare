@@ -31,7 +31,7 @@ export default class ItemList extends PureComponent {
       items: nextProps.items
     });
 
-    if(needsForceUpdate) {
+    if (needsForceUpdate) {
       this.listRef.forceUpdateGrid();
     }
   }
@@ -85,11 +85,12 @@ export default class ItemList extends PureComponent {
           <div className="itemInfoWrapper">
             <div className="itemName">
               <a href={element.url} target="_blank">{element.name}</a>
+              {element.not_waste ? <span title="Inte matsvinn!"> ⚠️</span> : ""}
             </div>
             <div className="itemInfo">
               <div className="itemDiscount">-{element.discount}%</div>
               {element.hoursOld <= MAX_HOURS_OLD_FOR_NEW ? <div className="itemNyhet">{element.hoursOld}h</div> : ""}
-              {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div>: ""}
+              {element.best_before ? <div className="itemBestBefore">Bäst före {element.best_before}</div> : ""}
             </div>
           </div>
 
