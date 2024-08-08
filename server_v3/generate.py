@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import sys
+import time
 from datetime import datetime
 
 import jsondiff
@@ -38,7 +39,10 @@ def parse_item(raw_item, timestamp):
         'price': float(raw_item['computed_variations'][0]['resolved_price']['number']),  # TODO verify lowest bulk
         'discount': raw_item['computed_variations'][0]['savings_percentage'],
         'best_before': raw_item['computed_variations'][0]['best_before'],
-        'first_seen': timestamp
+        'first_seen': timestamp,
+        'not_waste': raw_item['body'] is not None
+                     and ('inte räddad' in raw_item['body']['value'] or
+                          'kompletterar vårt räddade' in raw_item['body']['value'])
     }
 
 
@@ -53,19 +57,10 @@ def calculate_price_changes(old_prices, new_prices, timestamp):
             }
 
 
-def restore_first_seen(old_items, new_items):
-    original = {item['id']: item['first_seen'] for item in old_items}
-    for item in new_items:
-        if item['id'] in original:
-            item['first_seen'] = original[item['id']]
-
-
-def populate_waste_status(items, raw):
+def restore_first_seen(first_seen, items):
     for item in items:
-        raw_item = raw[str(item['id'])]
-        item['not_waste'] = (raw_item['body'] is not None
-                             and ('inte räddad' in raw_item['body']['value'] or
-                                  'kompletterar vårt räddade' in raw_item['body']['value']))
+        if item['id'] in first_seen:
+            item['first_seen'] = first_seen[item['id']]
 
 
 def perform_replay():
@@ -78,26 +73,40 @@ def perform_replay():
 
     items = [parse_item(item, 0) for item in raw.values()]
     prices = {item['id']: item['price'] for item in items}
+    first_seen = {item['id']: 0 for item in items}
 
     price_changes = []
     for diff_file in tqdm(diff_files):
         timestamp = diff_file_timestamp(diff_file)
         with open(os.path.join(diff_folder, diff_file), 'r') as f:
-            raw = differ.patch(raw, json.load(f))
+            diff = json.load(f)
+            raw = differ.patch(raw, diff)
 
-        new_items = [parse_item(item, timestamp) for item in raw.values()]
-        new_prices = {item['id']: item['price'] for item in new_items}
+        diffed_items = [parse_item(item, timestamp) for id, item in raw.items() if id in diff.keys()]
+        maybe_diffed_prices = {item['id']: item['price'] for item in diffed_items}
 
-        for change in calculate_price_changes(prices, new_prices, timestamp):
+        # Record price changes
+        for change in calculate_price_changes(prices, maybe_diffed_prices, timestamp):
             price_changes.append(change)
+            prices[change['item_id']] = change['price_after']
 
-        restore_first_seen(items, new_items)
+        # Record new first_seen and prices
+        for item in diffed_items:
+            if item['id'] not in first_seen:
+                first_seen[item['id']] = timestamp
+            if item['id'] not in prices:
+                prices[item['id']] = item['price']
 
-        items = new_items
-        prices = new_prices
+        # Remove deleted items from first_seen, so that if they appear again they get considered as new
+        if '$delete' in diff:
+            for item_id in diff['$delete']:
+                first_seen.pop(int(item_id), None)
 
+    # raw is now latest state, rebuild all items and not just diffed
+    items = [parse_item(item, -1) for item in raw.values()]
     items.sort(key=lambda x: x['id'])
-    populate_waste_status(items, raw)
+    restore_first_seen(first_seen, items)
+
     return {
         'categories': extract_categories(raw),
         'items': items,
@@ -115,15 +124,15 @@ def perform_increment():
 
     items = old_everything['items']
     prices = {item['id']: item['price'] for item in items}
+    first_seen = {item['id']: item['first_seen'] for item in items}
 
     new_items = [parse_item(item, timestamp) for item in raw.values()]
+    new_items.sort(key=lambda x: x['id'])
     new_prices = {item['id']: item['price'] for item in new_items}
 
     price_changes = list(calculate_price_changes(prices, new_prices, timestamp))
-    restore_first_seen(items, new_items)
+    restore_first_seen(first_seen, new_items)
 
-    new_items.sort(key=lambda x: x['id'])
-    populate_waste_status(new_items, raw)
     return {
         'categories': extract_categories(raw),
         'items': new_items,
@@ -138,10 +147,16 @@ def main():
     else:
         everything = perform_increment()
 
-    # TODO remove price changes of removed items
+    # Discard price changes of removed items
+    item_ids = set(item['id'] for item in everything['items'])
+    everything['priceChanges'] = list(filter(lambda x: x['item_id'] in item_ids, everything['priceChanges']))
+
     with open('data/everything.json', 'w') as f:
         json.dump(everything, f)
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main()
+    end_time = time.time()
+    logging.info(f'Done generating items in {end_time - start_time:.2f} seconds.')
