@@ -22,6 +22,7 @@ function fetchItems(callback) {
           discount: element.discount,
           best_before: element.best_before ? element.best_before : null,
           first_seen: dateFormat(firstSeenDate, "yyyy-mm-dd HH:MM"),
+          not_waste: element.not_waste,
           hoursOld: hoursOld
         });
       });
