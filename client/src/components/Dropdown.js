@@ -32,9 +32,9 @@ export default class Dropdown extends PureComponent {
           value={this.state.selectOption}
           onChange={this.updateValue}
           options={options}
-          searchable={false}
+          isSearchable={false}
           placeholder={placeholder}
-          clearable={!mandatory}
+          isClearable={!mandatory}
           styles={customStyles}
         />
       </div>
