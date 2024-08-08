@@ -17,14 +17,14 @@ class ItemPage extends Component {
       categories: props.categories
     };
 
-    filterSort(this.state.rawItems, null, INITIAL_SORT);
+    filterSort(this.state.rawItems, null, INITIAL_SORT, this.state.categories);
 
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onSortChange = this.onSortChange.bind(this);
   }
 
   onFilterChange(categoryFilter) {
-    const newItems = filterSort(this.state.rawItems, categoryFilter, this.state.sortOptions);
+    const newItems = filterSort(this.state.rawItems, categoryFilter, this.state.sortOptions, this.state.categories);
     this.setState({
       categoryFilter: categoryFilter,
       items: newItems
@@ -32,7 +32,7 @@ class ItemPage extends Component {
   }
 
   onSortChange(sortOptions) {
-    const newItems = filterSort(this.state.rawItems, this.state.categoryFilter, sortOptions);
+    const newItems = filterSort(this.state.rawItems, this.state.categoryFilter, sortOptions, this.state.categories);
     this.setState({
       sortOptions: sortOptions,
       items: newItems

@@ -21,13 +21,27 @@ function sortByKey(array, sortKeyObject) {
   });
 }
 
-export default function filterSort(itemList, categoryKey, sortKeyObject) {
+function listsIntersect(list1, list2) {
+    for (let item of list1) {
+        if (list2.includes(item)) {
+            return true;
+        }
+    }
+    return false;
+}
 
-  if (categoryKey) {
-    if (categoryKey === window.NO_CANDY) {
-      itemList = itemList.filter(x => x.categories.indexOf(window.CANDY_ID) === -1);
+export default function filterSort(itemList, categoryId, sortKeyObject, categories) {
+
+  if (categoryId) {
+    if (categoryId === 'NO_CANDY') {
+      const candyIds = categories.filter(x => {
+        const name = x.name.toLowerCase()
+        return (name.includes('godis') && !name.includes('naturgodis')) || name.includes('kakor')
+      }).map(x => x.id)
+
+      itemList = itemList.filter(x => !listsIntersect(x.categories, candyIds));
     } else {
-      itemList = itemList.filter(x => x.categories.indexOf(categoryKey) !== -1);
+      itemList = itemList.filter(x => x.categories.indexOf(categoryId) !== -1);
     }
   }
 
