@@ -45,7 +45,20 @@ class ItemPage extends Component {
       <div className="ItemPage">
         <Headroom>
           <div className="ItemPage-header">
-            <div className="ItemPage-title">Matsmartare <span className="menuButton" onClick={this.props.onMenuClick}>☰</span></div>
+            <div className="ItemPage-title">
+              Matsmartare
+              <div className="menuButton" onClick={this.props.onMenuClick}>
+                <svg width="28" height="28" fill="none" style={{verticalAlign: 'middle'}}>
+                  <path stroke="black" strokeLinecap="round" strokeWidth="2" d="M5 6h18M5 14h18M5 22h18M5"></path>
+                </svg>
+              </div>
+              <div className="menuButton">
+                <svg width="28" height="28" fill="none" style={{verticalAlign: 'middle'}}>
+                  <path d="m17 17 6 6" stroke="black" strokeWidth="2" strokeLinecap="round"></path>
+                  <circle cx="12" cy="12" r="7" stroke="black" strokeWidth="2"></circle>
+                </svg>
+              </div>
+            </div>
             <div className="ItemPage-subtitle">Ett smidigare gränssnitt till matsmart.se</div>
             <SelectPanel categories={categories} onFilterChange={this.onFilterChange} onSortChange={this.onSortChange} />
           </div>
