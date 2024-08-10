@@ -31,7 +31,6 @@ function listsIntersect(list1, list2) {
 }
 
 export default function filterSort(itemList, categoryId, sortKeyObject, categories) {
-
   if (categoryId) {
     if (categoryId === 'NO_CANDY') {
       const candyIds = categories.candyIds()
@@ -41,6 +40,8 @@ export default function filterSort(itemList, categoryId, sortKeyObject, categori
     } else {
       itemList = itemList.filter(x => x.categories.indexOf(categoryId) !== -1);
     }
+  } else {
+    itemList = itemList.slice(); // Need a copy to trigger state update
   }
 
   if (sortKeyObject) {
