@@ -26,6 +26,22 @@ class Categories {
     }
   }
 
+  filterMultisearch(itemList) {
+    const searchTerms = this.multisearchValue.split('\n').filter(line => line.trim() !== '').map(term => term.toLowerCase());
+    if (searchTerms.length == 0) {
+      return [];
+    }
+
+    const include = searchTerms.filter(s => !s.startsWith('-'))
+    const exclude = searchTerms.filter(s => s.startsWith('-')).map((s) => s.substring(1))
+
+    return itemList.filter(x => {
+      const name = x.name.toLowerCase();
+      return include.some(term => name.includes(term))
+             && !exclude.some(term => name.includes(term));
+    });
+  }
+
 }
 
 export default Categories;

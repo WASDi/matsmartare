@@ -13,16 +13,6 @@ class MultisearchPage extends PureComponent {
   onSearch() {
     const searchText = this.textareaRef.current.value;
     this.props.onMultisearch(searchText);
-//    const searchTerms = searchText.split('\n').filter(line => line.trim() !== '');
-//
-//    if (searchTerms.length == 0) {
-//      this.props.onMultisearch(null);
-//    } else {
-//      this.props.onMultisearch({
-//        include: searchTerms.filter((s) => !s.startsWith('-')),
-//        exclude: searchTerms.filter((s) => s.startsWith('-')).map((s) => s.substring(1))
-//      });
-//    }
   }
 
   render() {

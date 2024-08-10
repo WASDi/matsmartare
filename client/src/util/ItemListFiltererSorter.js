@@ -36,6 +36,8 @@ export default function filterSort(itemList, categoryId, sortKeyObject, categori
     if (categoryId === 'NO_CANDY') {
       const candyIds = categories.candyIds()
       itemList = itemList.filter(x => !listsIntersect(x.categories, candyIds));
+    } else if (categoryId === 'MULTISEARCH') {
+      itemList = categories.filterMultisearch(itemList);
     } else {
       itemList = itemList.filter(x => x.categories.indexOf(categoryId) !== -1);
     }
