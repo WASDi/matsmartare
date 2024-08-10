@@ -6,7 +6,7 @@ export default class Dropdown extends PureComponent {
   constructor (props) {
     super(props);
     this.state = {
-      selectOption: props.mandatory ? props.options[0] : null
+      selectOption: props.mandatory || props.preSelect ? props.options[0] : null
     };
     this.updateValue = this.updateValue.bind(this);
   }

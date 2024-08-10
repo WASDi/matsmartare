@@ -12,5 +12,7 @@ body {
     background-color: rgb(247,247,247,0.7);
     border: 1px solid black;
     border-radius: 5px;
-    padding: 0px 2px;
+    margin-left: 5px;
+    display: inline-block;
+    line-height: 0px;
 }
