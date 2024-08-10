@@ -28,12 +28,13 @@ export default class SelectPanel extends PureComponent {
   constructor (props) {
     super(props);
     this.categoryOptions = props.categories.toLabelValues();
+    this.preSelect = !!props.categories.multisearchValue;
   }
 
   render () {
     return (
       <div>
-        <Dropdown onChange={this.props.onFilterChange} options={this.categoryOptions} align="left" placeholder="Kategorier..." />
+        <Dropdown onChange={this.props.onFilterChange} options={this.categoryOptions} preSelect={this.preSelect} align="left" placeholder="Kategorier..." />
         <Dropdown onChange={this.props.onSortChange} options={sortOptions} mandatory align="right" />
       </div>
     )

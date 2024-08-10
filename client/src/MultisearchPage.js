@@ -3,10 +3,11 @@ import './MultisearchPage.css';
 
 class MultisearchPage extends PureComponent {
 
-  constructor() {
+  constructor(props) {
     super();
     this.textareaRef = React.createRef();
     this.onSearch = this.onSearch.bind(this);
+    this.value = props.value;
   }
 
   onSearch() {
@@ -32,7 +33,7 @@ class MultisearchPage extends PureComponent {
           Ett sökord per rad.<br/>
           Minustecken framför för att exkludera.
         </div>
-        <textarea ref={this.textareaRef}></textarea>
+        <textarea ref={this.textareaRef}>{this.value}</textarea>
         <div className="MultisearchPage-button" onClick={this.onSearch}>Sök</div>
       </div>
     );

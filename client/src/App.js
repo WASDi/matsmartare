@@ -73,7 +73,7 @@ class App extends Component {
   }
 
   render() {
-    const { page, items, priceChangeItems } = this.state;
+    const { page, items, priceChangeItems, multisearchValue } = this.state;
     const categories = this.prepareCategories();
 
     switch (page) {
@@ -87,7 +87,7 @@ class App extends Component {
       case PRICE_CHANGES_PAGE:
         return <PriceChangesPage onMenuClick={this.gotoMenuPage} priceChangeItems={priceChangeItems} />;
       case MULTISEARCH_PAGE:
-        return <MultisearchPage onMultisearch={this.onMultisearch} />;
+        return <MultisearchPage onMultisearch={this.onMultisearch} value={multisearchValue} />;
       default:
         return <div style={{color: "white"}}>ILLEGAL STATE !!!</div>;
     }

@@ -11,13 +11,14 @@ class ItemPage extends Component {
 
   constructor(props) {
     super(props);
+    const items = filterSort(props.items, props.categories.initialFilterKey(), INITIAL_SORT, props.categories);
+
     this.state = {
       rawItems: props.items,
-      items: props.items,
-      categories: props.categories
+      items: items,
+      categories: props.categories,
+      sortOptions: INITIAL_SORT
     };
-
-    filterSort(this.state.rawItems, null, INITIAL_SORT, this.state.categories);
 
     this.onFilterChange = this.onFilterChange.bind(this);
     this.onSortChange = this.onSortChange.bind(this);

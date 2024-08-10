@@ -18,6 +18,14 @@ class Categories {
     }).map(x => x.id)
   }
 
+  initialFilterKey() {
+    if (this.multisearchValue) {
+      return 'MULTISEARCH'
+    } else {
+      return null;
+    }
+  }
+
 }
 
 export default Categories;
