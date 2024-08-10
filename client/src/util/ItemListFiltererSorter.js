@@ -34,11 +34,7 @@ export default function filterSort(itemList, categoryId, sortKeyObject, categori
 
   if (categoryId) {
     if (categoryId === 'NO_CANDY') {
-      const candyIds = categories.filter(x => {
-        const name = x.name.toLowerCase()
-        return (name.includes('godis') && !name.includes('naturgodis')) || name.includes('kakor')
-      }).map(x => x.id)
-
+      const candyIds = categories.candyIds()
       itemList = itemList.filter(x => !listsIntersect(x.categories, candyIds));
     } else {
       itemList = itemList.filter(x => x.categories.indexOf(categoryId) !== -1);

@@ -5,6 +5,7 @@ import ItemPage from './ItemPage.js';
 import MenuPage from './MenuPage.js';
 import PriceChangesPage from './PriceChangesPage.js';
 import MultisearchPage from './MultisearchPage.js';
+import Categories from './util/Categories.js';
 
 const LOADING_PAGE = 0;
 const ITEM_PAGE = 1;
@@ -25,13 +26,14 @@ class App extends Component {
     this.gotoPriceChangesPage = this.gotoPriceChangesPage.bind(this);
     this.gotoMultisearchPage = this.gotoMultisearchPage.bind(this);
     this.onMultisearch = this.onMultisearch.bind(this);
+    this.prepareCategories = this.prepareCategories.bind(this);
 
     fetchItems(data => {
       this.setState(
         {
           page: ITEM_PAGE,
           items: data.items,
-          categories: data.categories,
+          categoriesState: data.categories,
           priceChangeItems: generatePriceChangeItems(data.items, data.priceChanges)
         }
       );
@@ -54,13 +56,25 @@ class App extends Component {
     this.setState({ page: MULTISEARCH_PAGE });
   }
 
-  onMultisearch(searchTerms) {
-    console.log("onMultiSearch", searchTerms) // TODO add multisearch logic
-    this.setState({ page: ITEM_PAGE });
+  onMultisearch(multisearchValue) {
+    this.setState({ page: ITEM_PAGE, multisearchValue: multisearchValue });
+  }
+
+  prepareCategories() {
+    const { categoriesState, multisearchValue } = this.state;
+    if (categoriesState) {
+      const categories = categoriesState.slice();
+      categories.unshift({id: 'NO_CANDY', name: '[Allt förutom godis]'});
+      if (multisearchValue) {
+        categories.unshift({id: 'MULTISEARCH', name: '[Multisök]'});
+      }
+      return new Categories(categories, multisearchValue);
+    }
   }
 
   render() {
-    const { page, items, categories, priceChangeItems } = this.state;
+    const { page, items, priceChangeItems } = this.state;
+    const categories = this.prepareCategories();
 
     switch (page) {
       case LOADING_PAGE:

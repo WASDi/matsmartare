@@ -3,16 +3,6 @@ import Dropdown from './Dropdown.js';
 
 import './SelectPanel.css';
 
-function transformCategories(categories) {
-  categories.sort(function(a,b) {return a.name > b.name} );
-  const categoryOptions = categories.map(cat => ({value: cat.id, label: cat.name}));
-  categoryOptions.unshift({
-    value: 'NO_CANDY',
-    label: '[Allt förutom godis]'
-  });
-  return categoryOptions;
-}
-
 function sortKeyObject(key, descending) {
   return {
     key,
@@ -37,7 +27,7 @@ export default class SelectPanel extends PureComponent {
 
   constructor (props) {
     super(props);
-    this.categoryOptions = transformCategories(props.categories);
+    this.categoryOptions = props.categories.toLabelValues();
   }
 
   render () {
