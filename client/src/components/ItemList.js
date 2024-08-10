@@ -18,23 +18,12 @@ export default class ItemList extends PureComponent {
 
   constructor (props) {
     super(props);
-    this.state = {
-      items: props.items
-    };
-
     this._rowRenderer = this._rowRenderer.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.items !== this.props.items) {
-      const needsForceUpdate = this.props.items.length === this.state.items.length;
-      this.setState({
-        items: this.props.items
-      }, () => {
-        if (needsForceUpdate) {
-          this.listRef.forceUpdateGrid();
-        }
-      });
+      this.listRef.forceUpdateGrid();
     }
   }
 
@@ -49,7 +38,7 @@ export default class ItemList extends PureComponent {
                   autoHeight
                   ref={listRef => { this.listRef = listRef }}
                   overscanRowCount={5}
-                  rowCount={this.state.items.length}
+                  rowCount={this.props.items.length}
                   rowHeight={ROW_HEIGHT}
                   rowRenderer={this._rowRenderer}
                   width={width}
@@ -65,7 +54,7 @@ export default class ItemList extends PureComponent {
   }
 
   _rowRenderer ({ index, key, style }) {
-      const element = this.state.items[index];
+      const element = this.props.items[index];
 
       const imageStyle = {
         width: ROW_HEIGHT-10,
