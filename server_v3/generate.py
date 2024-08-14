@@ -40,9 +40,8 @@ def parse_item(raw_item, timestamp):
         'discount': raw_item['computed_variations'][0]['savings_percentage'],
         'best_before': raw_item['computed_variations'][0]['best_before'],
         'first_seen': timestamp,
-        'not_waste': raw_item['body'] is not None
-                     and ('inte räddad' in raw_item['body']['value'] or
-                          'kompletterar vårt räddade' in raw_item['body']['value'])
+        'not_waste': (raw_item['computed_brand'] is not None and raw_item['computed_brand']['name'] == 'By Motatos')
+                     or (raw_item['body'] is not None and ('inte räddad' in raw_item['body']['value']))
     }
 
 
