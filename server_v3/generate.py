@@ -12,11 +12,22 @@ logging.basicConfig(format='%(asctime)s: %(message)s', level=logging.INFO)
 
 
 def diff_file_timestamp(filename):
+    filename = os.path.basename(filename)
     date_str = filename[5:13]
     time_str = filename[14:20]
 
     datetime_str = date_str + time_str
     return int(datetime.strptime(datetime_str, "%Y%m%d%H%M%S").timestamp())
+
+
+def list_diff_files(diff_folder='data/diffs'):
+    diff_files = []
+    for root, _, filenames in os.walk(diff_folder):
+        for filename in filenames:
+            if filename.startswith('diff_') and filename.endswith('.json'):
+                diff_files.append(os.path.join(root, filename))
+    diff_files.sort(key=diff_file_timestamp)
+    return diff_files
 
 
 def extract_categories(raw_items):
@@ -64,7 +75,7 @@ def restore_first_seen(first_seen, items):
 
 def perform_replay():
     diff_folder = 'data/diffs'
-    diff_files = sorted(os.listdir(diff_folder))
+    diff_files = list_diff_files(diff_folder)
     differ = jsondiff.JsonDiffer(marshal=True)
 
     with open('data/initial.json', 'r') as f:
@@ -114,7 +125,7 @@ def perform_replay():
 
 
 def perform_increment():
-    timestamp = diff_file_timestamp(max(os.listdir('data/diffs')))
+    timestamp = diff_file_timestamp(list_diff_files('data/diffs')[-1])
 
     with open('data/everything.json', 'r') as f:
         old_everything = json.load(f)
